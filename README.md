@@ -5,6 +5,9 @@
 ## Sobre 
 Descreva o seu projeto em linhas gerais. 
 
+Participantes:
+Daniel Studart, Davi Jacob, João Paulo Dopcke, Felipe Ultramar
+
 ## Instalação 
 **Linguagens**: Python, Django<br>
 **Tecnologias**: Github, Visual Studio Code<br>
