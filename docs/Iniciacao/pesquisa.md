@@ -10,6 +10,37 @@ title: Pesquisa
 ---
 # Legislação Trabalhista
 
+## 1. Vínculo Empregatício e Descaracterização
+- O estágio, por definição da Lei nº 11.788/2008, não cria vínculo empregatício de qualquer natureza com a empresa.
+- Para a validade jurídica, o sistema deve garantir a tríade: Matrícula regular, Termo de Compromisso (TCE) assinado e compatibilidade de atividades.
+- A manutenção do estagiário após o prazo de 2 anos ou o descumprimento de normas (como falta de seguro ou supervisão) acarreta a nulidade do estágio e reconhecimento de vínculo via CLT.
+
+---
+
+## 2. Jornada de Trabalho
+- **Limite Diário:** Máximo de 6 horas.
+- **Limite Semanal:** Máximo de 30 horas.
+- **Redução de Carga:** Em períodos de avaliações acadêmicas (provas), a carga horária deve ser reduzida pela metade para garantir o desempenho escolar do aluno.
+
+---
+
+## 3. Contraprestação (Bolsa e Auxílio)
+- **Estágio Não Obrigatório:** É compulsório o pagamento de bolsa-auxílio (valor livre) e auxílio-transporte.
+- **Estágio Obrigatório:** O pagamento de bolsa e transporte é facultativo por parte da empresa.
+- **Recesso Remunerado:** Direito a 30 dias de recesso a cada 12 meses de estágio (ou proporcional). Se o estágio for remunerado, o período de recesso também deve ser pago.
+
+---
+
+## 4. Saúde, Segurança e Supervisão
+- **Seguro contra Acidentes:** É obrigatória a contratação de apólice de seguro de vida em favor do estagiário, com número da apólice presente no contrato.
+- **Supervisão Profissional:** A empresa deve designar um supervisor com formação ou experiência na área do curso para orientar o aluno.
+- **Limite de Estagiários:** Cada supervisor na empresa pode orientar, no máximo, 10 estagiários simultaneamente.
+
+---
+
+## 5. Prazos e Vigência
+- **Duração Máxima:** O contrato com a mesma parte concedente não pode exceder 2 anos, exceto para estagiários com deficiência.
+- **Rescisão:** O contrato pode ser encerrado a qualquer momento por ambas as partes, sem necessidade de aviso prévio ou pagamento de multas rescisórias comuns à CLT.
 
 
 ---
