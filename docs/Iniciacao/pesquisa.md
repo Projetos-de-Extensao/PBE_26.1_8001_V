@@ -13,7 +13,7 @@ title: Pesquisa
 
 
 ---
-# Normas e Regulamentos de Estágio – Ibmec
+# Regulamentos de Estágio na Ibmec
 
 ## 1. Diretrizes Gerais
 
