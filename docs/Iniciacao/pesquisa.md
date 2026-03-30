@@ -149,3 +149,10 @@ title: Pesquisa
 
 # Aplicações Similares
 
+Diversas instituições de ensino já utilizam plataformas digitais para gestão de estágios, com foco principalmente em processos administrativos, como controle de documentos, carga horária e validação acadêmica. Exemplos incluem sistemas como o SIA, além de portais próprios de universidades.
+
+Essas soluções permitem cadastro de estágios, envio de documentos, acompanhamento por orientadores e validação final. Ferramentas como Google Classroom e Moodle também são usadas como apoio na comunicação e entrega de relatórios.
+
+No mercado, organizações como CIEE e Nube atuam na intermediação e gestão administrativa de estágios.
+
+Apesar disso, a maioria das soluções ainda é focada em burocracia, apresentando pouca automação inteligente — o que evidencia oportunidades em integração de sistemas, análise de desempenho e otimização da validação de relatórios.
