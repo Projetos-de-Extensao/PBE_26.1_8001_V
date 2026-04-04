@@ -1,0 +1,27 @@
+@startmindmap
+caption Versão 1.0 - Mapa Mental do Sistema de Gestão e Validação
+title Sistema de Gestão e Validação de Estágios
+
+* API de Gestão de Estágios
+** Para quê serve?
+*** Automatizar validação (Lei 11.788/08)
+*** Reduzir carga operacional dos coordenadores
+*** Acelerar aprovação de contratos para o aluno
+
+** O que é?
+*** API RESTful (Python/Django)
+*** Motor de Regras Customizáveis por Curso
+*** Sistema de Verificação de Conformidade
+
+** Como funciona? (Processo)
+*** Recebimento de dados via JSON
+*** Processamento contra regras de negócio
+*** Retorno de Status (Aprovado/Reprovado)
+*** Detalhamento de Pendências e Erros
+
+** O que gerencia? (Dados)
+*** Entidades de Aluno e Curso
+*** Contratos de Estágio e Aditivos
+*** Regras Legais e Acadêmicas
+*** Logs de Validação e Auditoria
+@endmindmap
