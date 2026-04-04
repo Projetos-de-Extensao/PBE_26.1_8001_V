@@ -52,4 +52,4 @@ Foram selecionados e organizados pontos essenciais como a finalidade do sistema,
 
 | Data | Versão | Descrição | Autor(es) |
 |------|--------|-----------|----------|
-| 04/04/2026 | 1.0 | Criação do mapa mental da API | João Paulo Dopcke de Vasconellos |
+| 04/04/2026 | 1.0 | Criação do mapa mental da API | João Paulo Dopcke de Vasconcellos |
