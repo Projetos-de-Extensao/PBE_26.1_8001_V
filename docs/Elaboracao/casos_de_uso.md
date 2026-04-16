@@ -13,9 +13,7 @@ Com base no levantemnto de requisitos realizado, foram definidos dois atores pri
 O aluno é responsavel por iniciar solicitações, anexar documentos e acompanhar o progresso do processo. 
 Já o coordenador desempenha o papel de análise, validação complementar, assinatura e encaminhamento dos documentos para as etapas finais.
 
-#Especificação dos Casos de Uso
-
-## Especificaçõs dos Casso de Uso
+## Especificaçõs dos Casos de Uso
 
 ## FUNC1- Autenticar Usuário
 **Atores:** Aluno, Coordenador
