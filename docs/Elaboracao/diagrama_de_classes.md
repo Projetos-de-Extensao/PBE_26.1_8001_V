@@ -1,87 +1,160 @@
 ---
-id: diagrama_de_casos de uso
-title: Diagrama de Casos de Uso
+id: diagrama_de_classes
+title: Diagrama de Classes
 ---
 
-## Casos de Uso
+# Diagrama de Classes
 
-### Descrição:
+## Introdução
 
-- Contas
-	- Criação
-	- Entrada
-	- Alteração
-	- Recuperar Senha
-	- Exclusão Lógica
-	- Visualização
+O diagrama de classes representa a estrutura do sistema de validação automatizada de documentos de estágio, descrevendo as principais entidades, seus atributos, métodos e relacionamentos.
 
-- Perfis
-	- Edição
-	- Pesquisar
-	- Visualização
-	- Seguir/Deixar de Seguir
+Com base nos casos de uso definidos, o sistema foi modelado considerando dois perfis principais de usuários: **Aluno** e **Coordenador**, além das entidades responsáveis pelo gerenciamento das solicitações, documentos, análises e notificações.
 
-- Postagens (Público) 	 	
-	- Criação
-	- Exclusão
-	- Interação
-	- Visualização
+---
 
-- Mensagens (Privado)
-	- Criação
-	- Exclusão
-	- Visualização
+## Diagrama em PlantUML
 
-- Galerias
-	- Albuns
-- Blogs
-- Grupos
+```plantuml
+@startuml
+title Diagrama de Classes - Sistema de Validação de Estágio
 
-### Criação de uma conta no sistema
+skinparam classAttributeIconSize 0
 
-* Atores:
+abstract class Usuario {
+  - id: int
+  - nome: String
+  - email: String
+  - senha: String
+  + autenticar(email: String, senha: String): boolean
+  + logout(): void
+}
 
-	- Usuário
-	- Sistema
+class Aluno {
+  - matricula: String
+  - curso: String
+  - campus: String
+  + criarSolicitacao(curso: String, campus: String): Solicitacao
+  + consultarChecklist(solicitacaoId: int): Checklist
+  + baixarModelo(nomeDocumento: String): ModeloDocumento
+  + enviarDocumentos(documentos: List<Documento>): void
+  + acompanharStatus(solicitacaoId: int): String
+}
 
-- Pré-Condições:
-	- Nenhuma
+class Coordenador {
+  - setor: String
+  + listarSolicitacoes(): List<Solicitacao>
+  + analisarDocumentos(solicitacao: Solicitacao): Analise
+  + revisarSolicitacao(solicitacao: Solicitacao, decisao: String): void
+  + assinarDocumento(documento: Documento): AssinaturaDigital
+  + encaminharParaReitoria(solicitacao: Solicitacao): Encaminhamento
+}
 
-* Fluxo Básico:
-    1. Usuário fornece e-mail, senha e confirmações
-    2. Dados do Usuário são validados pelo Sistema
-    3. Dados do Usuário são encriptados pelo Sistema
-    4. Dados do Usuário são persistidos pelo Sistema
-    5. Sistema gera um link com prazo de expiração
-    6. Sistema envia e-mail de verificação, com o link, para o Usuário
-    7. Usuário confirma o e-mail antes do link expirar
-    8. Sistema confirma que o Cadastro do Usuário foi realizado com sucesso
-    9. Sistema redireciona o Usuário para a página de Entrada
+class Solicitacao {
+  - id: int
+  - dataCriacao: Date
+  - curso: String
+  - campus: String
+  - status: StatusSolicitacao
+  + registrar(): void
+  + atualizarStatus(novoStatus: StatusSolicitacao): void
+  + consultarStatus(): StatusSolicitacao
+}
 
-- Fluxos Alternativos:
-	- 2a. E-mail do Usuário é inválido
-		2a1. Sistema exibe mensagem de erro
-	- 2b. Senha do Usuário não respeita regras de segurança
-		- 2b1. Sistema exibe mensagem de erro
-	- 3a. Usuário tenta confirmar o e-mail depois de o link expirar
-		- 3a1. Sistema sugere que o Usuário realize um novo Cadastro
+class Checklist {
+  - id: int
+  - itensObrigatorios: String[]
+  + exibirChecklist(): void
+  + validarPendencias(): boolean
+}
 
-### Entrada do usuário no sistema
+class Documento {
+  - id: int
+  - nome: String
+  - tipo: String
+  - arquivo: String
+  - statusValidacao: String
+  + anexarArquivo(): void
+  + validarDocumento(): boolean
+  + atualizarStatus(status: String): void
+}
 
-- Atores:
-	- Usuário
-	- Sistema
+class ModeloDocumento {
+  - id: int
+  - nome: String
+  - descricao: String
+  - arquivoModelo: String
+  + disponibilizarDownload(): void
+}
 
-- Pré-Condições:
-	Usuário deve estar cadastrado
+class Analise {
+  - id: int
+  - dataAnalise: Date
+  - resultado: ResultadoAnalise
+  - observacoes: String
+  + registrarAnalise(): void
+  + emitirParecer(): String
+}
 
-- Fluxo Básico:
-    - 1. Usuário fornece e-mail e senha
-	- 2. Sistema autentica o Usuário
-	- 3. Sistema redireciona o Usuário para a página inicial
+class Notificacao {
+  - id: int
+  - mensagem: String
+  - dataEnvio: Date
+  - tipoEvento: String
+  + enviar(usuario: Usuario): void
+}
 
-- Fluxos Alternativos:
-	- 2a. Dados do Usuário Inválidos
-		- 2a1. Sistema exibe mensagem de erro
-	- 3a. Primeio acesso do Usuário
-		- 3a1. Sistema redireciona o Usuário para a página de edição de perfil
+class AssinaturaDigital {
+  - id: int
+  - dataAssinatura: Date
+  - status: String
+  + assinar(): void
+  + validarAssinatura(): boolean
+}
+
+class Encaminhamento {
+  - id: int
+  - destino: String
+  - dataEnvio: Date
+  - status: String
+  + encaminhar(): void
+  + atualizarStatus(): void
+}
+
+enum StatusSolicitacao {
+  CRIADA
+  EM_VALIDACAO
+  CORRECAO_NECESSARIA
+  APROVADA
+  REPROVADA
+  ENCAMINHADA
+}
+
+enum ResultadoAnalise {
+  APROVADO
+  REPROVADO
+  CORRECAO_NECESSARIA
+}
+
+Usuario <|-- Aluno
+Usuario <|-- Coordenador
+
+Aluno "1" -- "0..*" Solicitacao : cria >
+Solicitacao "1" -- "1" Checklist : possui >
+Solicitacao "1" -- "0..*" Documento : contém >
+Solicitacao "1" -- "0..1" Analise : gera >
+Solicitacao "1" -- "0..1" Encaminhamento : gera >
+
+Aluno "1" -- "0..*" Notificacao : recebe >
+Coordenador "1" -- "0..*" Notificacao : recebe >
+
+Coordenador "1" -- "0..*" Analise : realiza >
+Coordenador "1" -- "0..*" AssinaturaDigital : executa >
+
+Documento "1" -- "0..1" AssinaturaDigital : recebe >
+Aluno "1" -- "0..*" ModeloDocumento : acessa >
+
+Analise --> ResultadoAnalise
+Solicitacao --> StatusSolicitacao
+
+@enduml
