@@ -1,87 +1,68 @@
----
-id: diagrama_de_casos de uso
-title: Diagrama de Casos de Uso
----
+```plantuml
+@startuml SGE_CasosDeUso
 
-## Casos de Uso
+top to bottom direction
+skinparam actorStyle hollow
 
-### Descrição:
+skinparam usecase {
+  BackgroundColor #F0F4FF
+  BorderColor #3366CC
+  FontSize 12
+}
 
-- Contas
-	- Criação
-	- Entrada
-	- Alteração
-	- Recuperar Senha
-	- Exclusão Lógica
-	- Visualização
+skinparam actor {
+  BackgroundColor #E8F5E9
+  BorderColor #2E7D32
+}
 
-- Perfis
-	- Edição
-	- Pesquisar
-	- Visualização
-	- Seguir/Deixar de Seguir
+skinparam note {
+  BackgroundColor #FFFDE7
+  BorderColor #F9A825
+}
 
-- Postagens (Público) 	 	
-	- Criação
-	- Exclusão
-	- Interação
-	- Visualização
+actor "Estudante"        as EST
+actor "Organização"      as ORG
+actor "Gestor"           as GES
+actor "Plataforma"       as PLT
 
-- Mensagens (Privado)
-	- Criação
-	- Exclusão
-	- Visualização
+rectangle "Módulo do Estudante" {
+  usecase "UC-E1: Registrar Conta"           as UE1
+  usecase "UC-E2: Autenticar-se"             as UE2
+  usecase "UC-E3: Consultar Oportunidades"   as UE3
+  usecase "UC-E4: Enviar Candidatura"        as UE4
+  usecase "UC-E5: Monitorar Processo"        as UE5
+}
 
-- Galerias
-	- Albuns
-- Blogs
-- Grupos
+rectangle "Módulo da Organização" {
+  usecase "UC-O1: Registrar Empresa"         as UO1
+  usecase "UC-O2: Autenticar-se"             as UO2
+  usecase "UC-O3: Publicar Vaga"             as UO3
+  usecase "UC-O4: Consultar Inscritos"       as UO4
+  usecase "UC-O5: Avaliar Candidatura"       as UO5
+}
 
-### Criação de uma conta no sistema
+rectangle "Módulo do Gestor" {
+  usecase "UC-G1: Autenticar-se"             as UG1
+  usecase "UC-G2: Administrar Contas"        as UG2
+  usecase "UC-G3: Homologar Vaga"            as UG3
+  usecase "UC-G4: Emitir Relatório"          as UG4
+}
 
-* Atores:
+EST --> UE1
+EST --> UE2
+EST --> UE3
+EST --> UE4
+EST --> UE5
 
-	- Usuário
-	- Sistema
+ORG --> UO1
+ORG --> UO2
+ORG --> UO3
+ORG --> UO4
+ORG --> UO5
 
-- Pré-Condições:
-	- Nenhuma
+GES --> UG1
+GES --> UG2
+GES --> UG3
+GES --> UG4
 
-* Fluxo Básico:
-    1. Usuário fornece e-mail, senha e confirmações
-    2. Dados do Usuário são validados pelo Sistema
-    3. Dados do Usuário são encriptados pelo Sistema
-    4. Dados do Usuário são persistidos pelo Sistema
-    5. Sistema gera um link com prazo de expiração
-    6. Sistema envia e-mail de verificação, com o link, para o Usuário
-    7. Usuário confirma o e-mail antes do link expirar
-    8. Sistema confirma que o Cadastro do Usuário foi realizado com sucesso
-    9. Sistema redireciona o Usuário para a página de Entrada
-
-- Fluxos Alternativos:
-	- 2a. E-mail do Usuário é inválido
-		2a1. Sistema exibe mensagem de erro
-	- 2b. Senha do Usuário não respeita regras de segurança
-		- 2b1. Sistema exibe mensagem de erro
-	- 3a. Usuário tenta confirmar o e-mail depois de o link expirar
-		- 3a1. Sistema sugere que o Usuário realize um novo Cadastro
-
-### Entrada do usuário no sistema
-
-- Atores:
-	- Usuário
-	- Sistema
-
-- Pré-Condições:
-	Usuário deve estar cadastrado
-
-- Fluxo Básico:
-    - 1. Usuário fornece e-mail e senha
-	- 2. Sistema autentica o Usuário
-	- 3. Sistema redireciona o Usuário para a página inicial
-
-- Fluxos Alternativos:
-	- 2a. Dados do Usuário Inválidos
-		- 2a1. Sistema exibe mensagem de erro
-	- 3a. Primeio acesso do Usuário
-		- 3a1. Sistema redireciona o Usuário para a página de edição de perfil
+@enduml
