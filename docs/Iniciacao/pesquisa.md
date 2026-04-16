@@ -5,6 +5,43 @@ title: Pesquisa
 
 # Legislação MEC
 
+## 1. Limite de Estagiários na Empresa
+- Empresas com até 5 empregados:máximo de 1 estagiário
+- De 6 a 10 empregados: até 2 estagiários 
+- de 11 a 25 empregados: até 5 estagiários
+Acima de 25 empregados: até 20% do quadro
+
+---
+
+## 2. Inclusão de Pessoas com Deficiência
+- Empresa devem reservar **10% das vagas de estágio** para pessoas com Deficiência
+
+---
+
+## 3. Obrigação de Comunicação com a Instituição
+- A empresa deve enviar informações do estágio sempre que solicitado pela instituição
+- A instituição pode **interromper o estágio** se identificar irregularidades
+
+---
+
+## 4. compatibilidade de Atividades 
+- As atividades do estágio devem ser **diretamente relacionadas ao curso**
+-Atividades fora da área podem invalidar o estágio
+
+---
+
+## 5. Frequência Escolar 
+- O aluno deve manter **Frequência regular na instituição**
+- Trancamento ou abandono do curso pode levar ao cancelamento do estágio
+
+---
+
+## 6. Avaliação Institucional 
+- A instituição pode aplicar **critérios próprios de avaliação** além dos relatórios
+-Pode exigir:
+  - Trabalhos complementares
+  - Apresentações
+  - Relatórios adicionais
 
 
 ---
@@ -149,3 +186,10 @@ title: Pesquisa
 
 # Aplicações Similares
 
+Diversas instituições de ensino já utilizam plataformas digitais para gestão de estágios, com foco principalmente em processos administrativos, como controle de documentos, carga horária e validação acadêmica. Exemplos incluem sistemas como o SIA, além de portais próprios de universidades.
+
+Essas soluções permitem cadastro de estágios, envio de documentos, acompanhamento por orientadores e validação final. Ferramentas como Google Classroom e Moodle também são usadas como apoio na comunicação e entrega de relatórios.
+
+No mercado, organizações como CIEE e Nube atuam na intermediação e gestão administrativa de estágios.
+
+Apesar disso, a maioria das soluções ainda é focada em burocracia, apresentando pouca automação inteligente — o que evidencia oportunidades em integração de sistemas, análise de desempenho e otimização da validação de relatórios.
