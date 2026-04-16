@@ -100,3 +100,106 @@ Já o coordenador desempenha o papel de análise, validação complementar, assi
 **Pós-requisito:** Documentos enviados para análise.
 
 ---
+
+## FUNC6
+
+**Ator:** Aluno
+**Objetivo:** Acompanhar andamento da solicitação.
+
+**Pré-requisito:** solicitação registrada
+
+**Fluxo principal:**
+
+1. Acessar lista de solicitações.
+2. Visualizar status atual:
+   - Em validação
+   - Correção necessária
+   - Aprovado
+   - Encaminhado
+**Pós-requisitos:** Status atualizado visualizado.
+
+---
+
+
+## FUNC7  - Notificação do Sistema
+
+**Atores>:** Aluno, Coordenador
+**Objetivo:** Informar eventos relevantes.
+
+**Eventos:**
+- envio realizado
+- análise concluida
+- aprovação ou reprovação
+- solicitação de ajuste
+- envio para reitoria
+
+**Pós-requisito** Usuário Notificado
+
+---
+
+## FUNC8 - Listar Solicitação
+
+**Ator:** Coordenador
+**Objetivo:** Visualizar solicitação do curso.
+
+**Pré-requerimento:** Estar autenticado.
+
+**fluxo principal:**
+1. Acessar painel.
+2. Sistema exibe solicitações.
+3. Selecionar uma para análise.
+
+**Pós-requisito:** Solicitação disponível para revisão
+
+---
+
+## FUNC9 - Analise Documentos
+**Ator:** Coordenador
+**Objetivo:** Avaliar os documentos enviados pelo aluno.
+
+**Pré-requisito:** Informações Disposiveis para decisão
+
+---
+
+## FUNC10 - Revisar Solicitação
+**ator:** Coordenador 
+**objetivo.** Tomar decisão final sobre a solicitação.
+
+**Pré-requisitos:** Análise dos documentos realizada.
+
+
+**Fluxo principal:**
+1. Revisar documentos.  
+2. Escolher:
+   - aprovar  
+   - reprovar  
+   - solicitar correção  
+
+**Pós-requisito:** Decisão registrada. 
+
+---
+
+## FUNC11 - Assinatura Digital
+
+**Ator:** Coordenador
+**Objetivo:** Formalizar aprovação.
+
+**Pré-requisito:** Documento valido.
+
+## FUNC12 - Encaminhamento Institucional
+
+**Ator:** Coordenador
+**Objetivo:** Enviar para validação final.
+
+**Pré-requisito:** Documento assinado.
+
+**fluxo principal:**
+1. Sistema encaminha à reitoria.  
+2. Atualiza status.  
+3. Notifica o aluno.  
+
+**Pós-requisito:** Processo enviado para etapa final.
+
+---
+
+Os casos de uso apresentados organizam as funcionalidades principais do sistema, servindo como base para o desenvolvimento, modelagem e implementação da solução.
