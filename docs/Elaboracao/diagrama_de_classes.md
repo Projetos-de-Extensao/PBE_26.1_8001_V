@@ -15,7 +15,7 @@ Com base nos casos de uso definidos, o sistema foi modelado considerando dois pe
 
 ## Diagrama em PlantUML
 
-```plantuml
+```kroki-plantuml
 @startuml
 title Diagrama de Classes - Sistema de Validação de Estágio
 
