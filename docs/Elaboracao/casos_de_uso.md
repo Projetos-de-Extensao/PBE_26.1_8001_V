@@ -17,12 +17,11 @@ Já o coordenador desempenha o papel de análise, validação complementar, assi
 
 ## Especificaçõs dos Casso de Uso
 
-##FUNC1- Autenticar Usuário
+## FUNC1- Autenticar Usuário
 **Atores:** Aluno, Coordenador
 **objetos:** Permitir que o usuário acesse o sistema de forma segura.
 **Pré-requisito:** Usuários acesse o sistema de forma segura.
 **Fluxo principal:**
-
 
 1. O usuário acessa a página principal inicial.
 2. Informa suas credenciais
@@ -40,7 +39,7 @@ Já o coordenador desempenha o papel de análise, validação complementar, assi
 
 **Pós-requisito:** Usuário autenticado.
 ---
-FUNC2- Criar Solicitação
+## FUNC2- Criar Solicitação
 **Ator:** Aluno 
 **Obejtivo:** Iniciar um nove pedido de validação de estágio.
 **Pré-requisito:** Tem que estar logado no sistema.
@@ -55,84 +54,49 @@ FUNC2- Criar Solicitação
 
 ---
 
+## FUNC3- Consultar Checklist 
 
-### Descrição:
+**Ator.** Aluno
+**Objetivo:** Verificar documentos obrigatórios.
 
-- Contas
-	- Criação
-	- Entrada
-	- Alteração
-	- Recuperar Senha
-	- Exclusão Lógica
-	- Visualização
+**Pré- requisito:** Solicitação existente.
 
-- Perfis
-	- Edição
-	- Pesquisar
-	- Visualização
-	- Seguir/Deixar de Seguir
+**Fluxo principal:**
+1. Selecionar a solicitação.
+2. O sistema carrega as exigências.
+3. Exibe a lista de docuemntos.
 
-- Postagens (Público) 	 	
-	- Criação
-	- Exclusão
-	- Interação
-	- Visualização
+**Pós-requisito:** Checklist disponível.
+---
 
-- Mensagens (Privado)
-	- Criação
-	- Exclusão
-	- Visualização
+## FUNC4- Download de Modelos
+**Ator:** Aluno
+**Objeto:** Acessar modelos padrão de documentos.
 
-- Galerias
-	- Albuns
-- Blogs
-- Grupos
+**Pré-requisitos:** Solicitação Ativa.
 
-### Criação de uma conta no sistema
+**Fluxo principal:**
+1. Acessar área de modelos.
+2. Escolher documento.
+3. Download realizado
 
-* Atores:
+**Pós-requisitos:** Arquivo disponível no dispositivo
 
-	- Usuário
-	- Sistema
+---
 
-- Pré-Condições:
-	- Nenhuma
 
-* Fluxo Básico:
-    1. Usuário fornece e-mail, senha e confirmações
-    2. Dados do Usuário são validados pelo Sistema
-    3. Dados do Usuário são encriptados pelo Sistema
-    4. Dados do Usuário são persistidos pelo Sistema
-    5. Sistema gera um link com prazo de expiração
-    6. Sistema envia e-mail de verificação, com o link, para o Usuário
-    7. Usuário confirma o e-mail antes do link expirar
-    8. Sistema confirma que o Cadastro do Usuário foi realizado com sucesso
-    9. Sistema redireciona o Usuário para a página de Entrada
+## FUNC5
+**Ator:** Aluno
+**objetivo:** Submeter documentos para validação.
 
-- Fluxos Alternativos:
-	- 2a. E-mail do Usuário é inválido
-		2a1. Sistema exibe mensagem de erro
-	- 2b. Senha do Usuário não respeita regras de segurança
-		- 2b1. Sistema exibe mensagem de erro
-	- 3a. Usuário tenta confirmar o e-mail depois de o link expirar
-		- 3a1. Sistema sugere que o Usuário realize um novo Cadastro
+**Pré-requesito:** Documentos obrigatórios disponíveis.
 
-### Entrada do usuário no sistema
+**Fluxo principal:**
+1. selecionar arquivos.
+2. Upload realizado.
+3. Sistema inicia análisa automática.
+4. Status atualizado para **Em Processo De Validação**
 
-- Atores:
-	- Usuário
-	- Sistema
+**Pós-requisito:** Documentos enviados para análise.
 
-- Pré-Condições:
-	Usuário deve estar cadastrado
-
-- Fluxo Básico:
-    - 1. Usuário fornece e-mail e senha
-	- 2. Sistema autentica o Usuário
-	- 3. Sistema redireciona o Usuário para a página inicial
-
-- Fluxos Alternativos:
-	- 2a. Dados do Usuário Inválidos
-		- 2a1. Sistema exibe mensagem de erro
-	- 3a. Primeio acesso do Usuário
-		- 3a1. Sistema redireciona o Usuário para a página de edição de perfil
+---
