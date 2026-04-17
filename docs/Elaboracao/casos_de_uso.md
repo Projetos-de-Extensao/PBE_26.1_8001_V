@@ -14,7 +14,59 @@ O aluno é responsável por iniciar solicitações, anexar documentos e acompanh
 Já o coordenador desempenha o papel de análise, validação complementar, assinatura e encaminhamento dos documentos para as etapas finais.
 A organização parceira atua na confirmação de ciência e assinatura do contrato de estágio.
 
-## Especificaçõs dos Casos de Uso
+## Diagrama em PlantUML
+
+```kroki-plantuml
+@startuml
+left to right direction
+skinparam packageStyle rectangle
+
+actor "Aluno" as Aluno
+actor "Coordenador" as Coordenador
+actor "Organização Parceira" as Empresa
+
+rectangle "Sistema de Gestão de Estágios" {
+  usecase "Autenticar Usuário" as UC1
+  usecase "Criar Solicitação" as UC2
+  usecase "Consultar Checklist" as UC3
+  usecase "Download de Modelos" as UC4
+  usecase "Enviar Documentos" as UC5
+  usecase "Acompanhar Solicitação" as UC6
+  usecase "Receber Notificação" as UC7
+  usecase "Listar Solicitações" as UC8
+  usecase "Analisar Documentos" as UC9
+  usecase "Revisar Solicitação" as UC10
+  usecase "Assinatura Digital" as UC11
+  usecase "Encaminhamento Institucional" as UC12
+  usecase "Aceitar Proposta de Estágio" as UC13
+}
+
+Aluno ---> UC1
+Coordenador ---> UC1
+Empresa ---> UC1
+
+Aluno --> UC2
+Aluno --> UC3
+Aluno --> UC4
+Aluno --> UC5
+Aluno --> UC6
+Aluno --> UC7
+
+Coordenador --> UC7
+Coordenador --> UC8
+Coordenador --> UC9
+Coordenador --> UC10
+Coordenador --> UC12
+
+Aluno --> UC11
+Coordenador ---> UC11
+Empresa --> UC11
+
+Empresa --> UC13
+@enduml
+```
+
+## Especificações dos Casos de Uso
 
 ## FUNC1- Autenticar Usuário
 **Atores:** Aluno, Coordenador
