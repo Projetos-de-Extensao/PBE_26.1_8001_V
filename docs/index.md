@@ -12,7 +12,7 @@ hide:
 
     ---
 
-    Lorem Ipsum     Lorem Ipsum Lorem Ipsum Lorem Ipsum Lorem Ipsum
+    Alunos: Daniel Studart, Davi Jacob, João Paulo Dopcke, Felipe Ultramar e Gustavo Rezende
 
     [:octicons-arrow-right-24: Repositório](https://github.com/Projetos-de-Extensao/PBE_26.1_8001_V)
 
