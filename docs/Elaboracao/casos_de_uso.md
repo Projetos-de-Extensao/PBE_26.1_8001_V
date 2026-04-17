@@ -9,9 +9,10 @@ title: Diagrama de Casos de Uso
 
 Os casos de uso têm como objetivo representar as interações essenciasi entre os usuários e o sistema responsável pela validação automatizada de documentos de estágio.
 
-Com base no levantemnto de requisitos realizado, foram definidos dois atores principais: **Coordenadores** e **Alunos**
-O aluno é responsavel por iniciar solicitações, anexar documentos e acompanhar o progresso do processo. 
+Com base no levantamento de requisitos realizado, foram definidos três atores principais: **Coordenadores**, **Alunos** e **Organizações Parceiras**.
+O aluno é responsável por iniciar solicitações, anexar documentos e acompanhar o progresso do processo.
 Já o coordenador desempenha o papel de análise, validação complementar, assinatura e encaminhamento dos documentos para as etapas finais.
+A organização parceira atua na confirmação de ciência e assinatura do contrato de estágio.
 
 ## Especificaçõs dos Casos de Uso
 
@@ -20,14 +21,7 @@ Já o coordenador desempenha o papel de análise, validação complementar, assi
 **objetos:** Permitir que o usuário acesse o sistema de forma segura.
 **Pré-requisito:** Usuários acesse o sistema de forma segura.
 **Fluxo principal:**
-
 1. O usuário acessa a página principal inicial.
-2. Informa suas credenciais
-3. O sistema valida as informações.
-4. O acesso é liberado conforme o perfil.
-
-**Fluxo principal:**
-1. O usuário acessa a página incial.
 2. Informa suas credenciais.
 3. O sistema valida as informações.
 4. O acesso é liberado conforme o perfil.
@@ -83,7 +77,7 @@ Já o coordenador desempenha o papel de análise, validação complementar, assi
 ---
 
 
-## FUNC5
+## FUNC5 - Enviar Documentos
 **Ator:** Aluno
 **objetivo:** Submeter documentos para validação.
 
@@ -99,7 +93,7 @@ Já o coordenador desempenha o papel de análise, validação complementar, assi
 
 ---
 
-## FUNC6
+## FUNC6 - Acompanhar Solicitação
 
 **Ator:** Aluno
 **Objetivo:** Acompanhar andamento da solicitação.
@@ -151,11 +145,18 @@ Já o coordenador desempenha o papel de análise, validação complementar, assi
 
 ---
 
-## FUNC9 - Analise Documentos
+## FUNC9 - Analisar Documentos
 **Ator:** Coordenador
 **Objetivo:** Avaliar os documentos enviados pelo aluno.
 
-**Pré-requisito:** Informações Disposiveis para decisão
+**Pré-requisito:** Informações disponíveis para decisão.
+
+**Fluxo principal:**
+1. Acessar a solicitação específica.
+2. Analisar as pendências e os resultados vindos da API.
+3. Avaliar manualmente questões sensíveis ou dúbias do contrato.
+
+**Pós-requisito:** Processo documentado e pronto para a tomada de decisão final de revisão.
 
 ---
 
@@ -179,10 +180,18 @@ Já o coordenador desempenha o papel de análise, validação complementar, assi
 
 ## FUNC11 - Assinatura Digital
 
-**Ator:** Coordenador
-**Objetivo:** Formalizar aprovação.
-
+**Atores:** Aluno, Coordenador, Organização Parceira
+**Objetivo:** Formalizar aprovação através de assinatura eletrônica.
 **Pré-requisito:** Documento valido.
+
+**Fluxo principal:**
+1. O usuário seleciona a opção assinar documento.
+2. Sistema integra com o provedor (ex: gov.br ou ICP-Brasil).
+3. A assinatura digital é validada e injetada no contrato.
+
+**Pós-requisito:** Arquivo assinado com sucesso.
+
+---
 
 ## FUNC12 - Encaminhamento Institucional
 
@@ -201,3 +210,19 @@ Já o coordenador desempenha o papel de análise, validação complementar, assi
 ---
 
 Os casos de uso apresentados organizam as funcionalidades principais do sistema, servindo como base para o desenvolvimento, modelagem e implementação da solução.
+
+---
+
+## FUNC13 - Aceitar Proposta de Estágio
+
+**Ator:** Organização Parceira
+**Objetivo:** Validar e garantir a veracidade dos dados informados pelo aluno na solicitação.
+
+**Pré-requisito:** Documentos submetidos pelo aluno.
+
+**Fluxo principal:**
+1. Acesso ao contrato da solicitação específica.
+2. Conferência dos dados de carga horária, supervisor e apólice de seguro.
+3. Confirmação do aceite ou recusa por parte da empresa.
+
+**Pós-requisito:** Proposta validada pela empresa e pronta para fluxo de assinatura.

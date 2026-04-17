@@ -50,6 +50,12 @@ class Coordenador {
   + encaminharParaReitoria(solicitacao: Solicitacao): Encaminhamento
 }
 
+class OrganizacaoParceira {
+  - cnpj: String
+  - razaoSocial: String
+  + validarProposta(solicitacao: Solicitacao): void
+}
+
 class Solicitacao {
   - id: int
   - dataCriacao: Date
@@ -138,6 +144,7 @@ enum ResultadoAnalise {
 
 Usuario <|-- Aluno
 Usuario <|-- Coordenador
+Usuario <|-- OrganizacaoParceira
 
 Aluno "1" -- "0..*" Solicitacao : cria >
 Solicitacao "1" -- "1" Checklist : possui >
@@ -150,6 +157,9 @@ Coordenador "1" -- "0..*" Notificacao : recebe >
 
 Coordenador "1" -- "0..*" Analise : realiza >
 Coordenador "1" -- "0..*" AssinaturaDigital : executa >
+Aluno "1" -- "0..*" AssinaturaDigital : executa >
+OrganizacaoParceira "1" -- "0..*" AssinaturaDigital : executa >
+OrganizacaoParceira "1" -- "0..*" Solicitacao : valida >
 
 Documento "1" -- "0..1" AssinaturaDigital : recebe >
 Aluno "1" -- "0..*" ModeloDocumento : acessa >

@@ -13,7 +13,6 @@ title: Requisitos
 
 * **Alunos:** Usuários responsáveis por enviar documentos relacionados ao estágio (contratos, termos e relatórios), além de acompanhar o andamento das solicitações dentro do sistema.
 * **Coordenador / Setor de Estágios:** Responsáveis por analisar as solicitações enviadas, validar documentos, solicitar ajustes quando necessário e realizaer a aprovação institucional.
-* **Orientadores Acadêmicos:** Atuam na avaliação dos relatórios de estágio, emitindo parecer e definindo o resultado final do aluno.
 * **Organizações Parceiras:** Empresas onde os estágios são realizados, que fornecem e validam informações presentes nos documentos.
 
 
@@ -28,9 +27,8 @@ title: Requisitos
 | RF03 | Disponibilizar uma visão geral das solicitações para a coordenação, com possibilidade de filtragem. | Alta |
 | RF04 | Permitir que a coordenação aprove, rejeite ou solicite ajustes nos documentos enviados. | Alta |
 | RF05 | Disponibilizar recurso de assinatura digital para formalização dos documentos. | Média |
-| RF06 | Permitir ao orientador registrar avaliação e resultado final do estágio. | Média |
-| RF07 | Disponibilizar arquivos modelo para preenchimento pelos estudantes. | Baixa |
-| RF08 | Informar os usuários sobre mudanças de status e prazos por meio de notificações. | Média |
+| RF06 | Disponibilizar arquivos modelo para preenchimento pelos estudantes. | Baixa |
+| RF07 | Informar os usuários sobre mudanças de status e prazos por meio de notificações. | Média |
 
 ---
 

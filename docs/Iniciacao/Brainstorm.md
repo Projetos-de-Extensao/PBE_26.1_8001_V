@@ -1,122 +1,115 @@
-## Tema
-Validação automática do relatório final de estágio na aplicação web de gestão de estágio.
+---
+id: brainstorm
+title: Brainstorm
+---
 
-## Contexto
-A ideia deste projeto é ajudar no processo de análise dos relatórios finais de estágio dentro de uma aplicação web de gestão de estágio.  
-Hoje, essa validação pode acabar sendo muito manual, o que gera demora e também faz com que erros simples passem ou precisem ser corrigidos só depois.
+## Introdução
 
-## Problema que queremos resolver
-Alguns pontos que esse projeto tenta melhorar:
+O brainstorm é uma técnica de elicitação de requisitos que consiste em reunir a equipe e discutir sobre diversos tópicos gerais do projeto apresentados no documento problema de negócio. No brainstorm, o diálogo é incentivado e críticas são evitadas para permitir que todos colaborem com suas próprias ideias.
 
-- a revisão manual pode levar tempo;
-- relatórios podem ser enviados com campos faltando;
-- pode haver erros de estrutura ou formatação;
-- nem sempre existe um padrão claro entre os relatórios enviados;
-- o coordenador ou responsável pode acabar gastando tempo com conferências básicas.
+## Metodologia
 
-## Objetivo do brainstorm
-Este brainstorm tem como objetivo levantar ideias iniciais para o projeto, pensando principalmente em:
+A equipe se reuniu para debater ideias gerais sobre o projeto no dia 06/04/2026, por meio do Discord. A atividade teve início às 19:00 e terminou às 20:30. Davi Jacob atuou como moderador, direcionando a equipe com questões pré-elaboradas e registrando as respostas no documento.
 
-- funcionalidades possíveis;
-- regras de validação;
-- fluxo de uso do sistema;
-- dificuldades que podem aparecer no desenvolvimento;
-- definição de um MVP simples e viável.
+## Brainstorm
 
-## Ideias de funcionalidades
-Algumas ideias iniciais para o sistema:
+## Versão 1.0
 
-- verificar se os campos obrigatórios foram preenchidos;
-- validar se o arquivo enviado está em um formato aceito, como PDF ou DOCX;
-- checar se o relatório possui seções básicas, como introdução, atividades desenvolvidas e conclusão;
-- identificar relatórios com conteúdo muito curto;
-- mostrar mensagens de erro ou aviso para ajudar o aluno a corrigir;
-- permitir o reenvio do relatório após ajustes;
-- exibir o status do relatório no sistema;
-- gerar um resumo simples com os problemas encontrados;
-- encaminhar o relatório para revisão final de um coordenador após a validação automática.
+## Perguntas
 
-## Ideias técnicas
-Pensando de forma inicial, o projeto poderia seguir algo assim:
+### 1. Qual o objetivo principal da aplicação?
 
-- leitura do arquivo enviado pelo usuário;
-- extração do texto do relatório;
-- aplicação de regras simples de validação;
-- retorno de mensagens com os erros ou avisos encontrados;
-- armazenamento do resultado da validação para consulta posterior.
+**1** - Desenvolver uma API focada na validação automática de propostas de estágio.
 
-Também pode ser interessante separar as validações por etapas, por exemplo:
+**2** - Garantir que a validação respeite rigorosamente a Lei 11.788/08 (limites de horas, apólice de seguro e vigência).
 
-1. validação do arquivo;
-2. validação dos campos obrigatórios;
-3. validação da estrutura do relatório;
-4. exibição do resultado para o usuário.
+**3** - Reduzir a carga de trabalho operacional dos coordenadores com análise puramente manual e burocrática de documentos.
 
-## Fluxo sugerido do usuário
-Um fluxo simples de uso poderia ser:
+**4** - Servir como um motor de regras centralizado capaz de aprovar, reprovar ou reter contratos de estágio.
 
-1. o estagiário envia o relatório final na plataforma;
-2. o sistema realiza a validação automática;
-3. caso existam erros, o sistema informa o que precisa ser corrigido;
-4. o estagiário ajusta o arquivo e envia novamente;
-5. se estiver tudo certo, o relatório segue para revisão final.
+**5** - Tornar a avaliação muito mais rápida para os alunos diminuindo a fila de espera.
 
-## Critérios iniciais de validação
-Exemplos de validações que podem existir no começo do projeto:
+---
 
-- nome do aluno preenchido;
-- matrícula preenchida;
-- empresa informada;
-- período de estágio informado;
-- arquivo em formato permitido;
-- presença de seções principais no relatório;
-- quantidade mínima de conteúdo.
+### 2. Como será o processo para cadastrar um novo cliente?
 
-## Riscos e desafios
-Alguns desafios que podem aparecer:
+**1** - O administrador institucional do Ibmec deverá cadastrar o sistema cliente que consumirá essa API.
 
-- dificuldade para ler corretamente certos arquivos;
-- relatórios com estruturas diferentes entre cursos;
-- regras muito rígidas que acabem marcando erro sem necessidade;
-- regras muito simples que deixem passar problemas importantes;
-- dificuldade em definir até onde a validação automática deve ir.
+**2** - O cliente (como o portal institucional) recebe as credenciais para autenticação segura.
 
-## Perguntas em aberto
-Durante o desenvolvimento, algumas dúvidas ainda precisam ser melhor definidas:
+**3** - Com o sistema logado, será possível consumir as validações do motor de regras.
 
-- quais validações devem bloquear o envio?
-- quais validações devem aparecer apenas como aviso?
-- o coordenador poderá aprovar um relatório mesmo com alertas?
-- haverá um modelo padrão de relatório para todos os cursos?
-- quais formatos serão aceitos no MVP?
-- a empresa contratante afeta a estrutura do documento? Ex. Associações de estágio (NUBE, entre outros), mudam algo no arquivo?
+**4** - O cliente utilizará um token em todas as requisições como forma de autenticação.
 
+**5** - O acesso não será público, protegendo a segurança das requisições.
 
-## MVP proposto
-Para uma primeira versão, queremos algo mais simples:
+---
 
-- validação de campos obrigatórios;
-- verificação do formato do arquivo;
-- checagem básica das seções do relatório;
-- exibição de feedback simples para o usuário.
+### 3. Como será a forma de adicionar produtos?
 
-## Métricas de sucesso
-Algumas formas de avaliar se a ideia está funcionando:
+**1** - O cliente enviará as propostas de estágio aos endpoints da API por meio de uma requisição HTTP.
 
-- redução do tempo de análise inicial;
-- diminuição da quantidade de relatórios com erro básico;
-- tempo médio entre envio e retorno do sistema;
-- quantidade de relatórios reenviados para correção.
+**2** - A requisição ("produto") conterá as informações contratuais que precisam ser confrontadas, como carga horária, duração e dados do seguro.
 
-## Próximos passos
-Como próximos passos, seria interessante:
+**3** - O sistema da API validará automaticamente todos esses dados contra a legislação trabalhista brasileira.
 
-1. definir quais validações são prioritárias;
-2. entender como o sistema atual funciona;
-3. escolher uma forma de ler e analisar os arquivos;
-4. montar um protótipo simples da validação;
-5. testar com exemplos de relatórios.
+**4** - As propostas que passarem ou não na validação serão armazenadas no banco de dados para controle institucional.
 
-## Observação final
-Este brainstorm representa ideias iniciais do projeto.  
-Alguns pontos ainda podem mudar conforme o entendimento do problema ficar mais claro e conforme forem aparecendo limitações técnicas ou novas necessidades.
+---
+
+### 4. Outras perguntas pertinentes ao contexto
+
+**1** - Como o motor validará se os documentos obrigatórios não vieram em branco?
+
+**2** - O que acontecerá com contratos que possuem regras muito subjetivas e a API não consegue concluir com 100% de precisão?
+
+**3** - Estaremos integrados com algum sistema de assinatura digital após confirmar que o modelo possui valor legal e foi aprovado?
+
+**4** - Como o coordenador acompanhará o histórico de cada um desses contratos analisados?
+
+---
+
+### 5. "Outras perguntas pertinentes ao contexto", como seria a forma de o cliente adicionar os produtos?
+
+**1** - O cliente deverá enviar requisições do tipo POST para a API em um formato JSON muito bem estruturado com os dados do TCE (Termo de Compromisso de Estágio).
+
+---
+
+### 6. Quais informações seriam interessantes para o cliente?
+
+**1** - O status claro e exato do resultado do motor de regras: Aprovado, Reprovado ou Pendência de Revisão Humana.
+
+**2** - O cliente usuário receberá descritivo das falhas que motivaram a reprovação (ex: "Excedeu 30 horas semanais").
+
+**3** - O usuário da coordenação poderá extrair histórico contendo todo sucesso ou falha dessas requisições avaliadas.
+
+## Requisitos elicitados
+
+| ID   | Descrição |
+|------|-----------|
+| BS01 | O sistema deve possuir rota de cadastro para criar aplicações clientes. |
+| BS02 | O sistema deve autenticar clientes por meio de utilização de tokens restritos. |
+| BS03 | O sistema deve receber os dados de Termo de Compromisso de Estágio (TCE) em formato JSON. |
+| BS04 | A API deve analisar e impedir jornada superior a 6 horas/dia e 30 horas/semanais. |
+| BS05 | O sistema deve exigir a demonstração de apólice de seguro do modelo recebido. |
+| BS06 | O sistema deve avaliar limite de contrato de até 2 anos na mesma concedente. |
+| BS07 | O sistema deve registrar o resultado: Aprovado, Reprovado ou Precisa de Revisão. |
+| BS08 | O sistema deve retornar qual parte da Lei 11.788/08 exata violada em caso de erros na estrutura do TCE. |
+| BS09 | O sistema deve deixar relatórios ou histórico que permitam o coordenador consultar avaliações pretéritas. |
+| BS10 | O sistema precisa oferecer segurança das informações e logs (auditoria). |
+| BS11 | O sistema poderá incluir funcionalidade conectada para assinatura padrão ICP-Brasil ou gov.br. |
+| BS12 | O fluxo tem de encaminhar retensões duvidosas/subjetivas pro coordenador (visão humana). |
+
+## Conclusão
+
+Através da aplicação da técnica, foi possível elicitar alguns dos primeiros requisitos do projeto, permitindo uma melhor compreensão do problema e das funcionalidades esperadas para o sistema de gestão de estágios.
+
+## Referências Bibliográficas
+
+> BARBOSA, S. D. J.; DA SILVA, B. S. *Interação humano-computador*. Elsevier, 2010.
+
+## Autor(es)
+
+| Data       | Versão | Descrição            | Autor(es) |
+|------------|--------|----------------------|-----------|
+| 06/04/2026 | 1.0    | Criação do documento | Daniel Studart, Davi Jacob, João Paulo Dopcke, Felipe Ultramar, Gustavo Rezende |
