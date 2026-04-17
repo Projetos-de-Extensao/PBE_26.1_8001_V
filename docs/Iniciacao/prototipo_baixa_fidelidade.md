@@ -35,6 +35,13 @@ O desenvolvimento do protótipo baseou-se nos casos de uso e requisitos levantad
 @endsalt
 ```
 
+<p align="justify">
+<b>Componentes da Tela:</b><br/>
+• <b>Campos de Texto (E-mail Institucional / CNPJ e Senha):</b> Permitem a inserção das credenciais de acesso. O sistema diferenciará o perfil (Aluno, Coordenador ou Empresa) com base no e-mail ou CNPJ inserido.<br/>
+• <b>Botão "Acessar":</b> Aciona a verificação das credenciais (Caso de Uso: Autenticar Usuário).<br/>
+• <b>Links "Esqueceu a senha?" e "Ajuda":</b> Opções de recuperação de acesso e suporte para os usuários institucionais e externos.
+</p>
+
 ### Tela Dashboard - Aluno
 
 ```kroki-plantuml
@@ -61,6 +68,13 @@ O desenvolvimento do protótipo baseou-se nos casos de uso e requisitos levantad
 @endsalt
 ```
 
+<p align="justify">
+<b>Componentes da Tela:</b><br/>
+• <b>Cabeçalho:</b> Exibe a saudação ao aluno logado, com opções de acessar o "Meu Perfil" e "Sair" do sistema.<br/>
+• <b>Menu Lateral/Superior (Painel):</b> Links rápidos para as principais ações do aluno ("Nova Solicitação", para iniciar um novo processo; "Minhas Solicitações", para visualizar o histórico; "Modelos de Documentos", para baixar templates necessários).<br/>
+• <b>Tabela "Minhas Solicitações Recentes":</b> Apresenta um resumo dinâmico do status dos documentos enviados. Cada linha (ID, Tipo, Status, Última Atualização) permite que o aluno acompanhe rapidamente o andamento do seu estágio sem precisar entrar em detalhes a todo instante.
+</p>
+
 ### Tela de Nova Solicitação - Aluno
 
 ```kroki-plantuml
@@ -83,6 +97,15 @@ O desenvolvimento do protótipo baseou-se nos casos de uso e requisitos levantad
 @endsalt
 ```
 
+<p align="justify">
+<b>Componentes da Tela:</b><br/>
+• <b>Seletores/Campos Informativos:</b> Permitem escolher o "Tipo de Documento" (ex: TCE, Relatório) e visualizar o "Curso" e "Campus" vinculados ao aluno.<br/>
+• <b>Lista de Documentos Necessários (Checklist):</b> Uma lista dinâmica gerada pelo sistema de acordo com o tipo de documento solicitado.<br/>
+• <b>Botões "Anexar":</b> Responsáveis pela ação de selecionar e realizar o upload dos arquivos (frequentemente em versão PDF).<br/>
+• <b>Checkboxes [X]:</b> Indicadores visuais que mudam de estado automaticamente quando o arquivo é carregado com sucesso.<br/>
+• <b>Botões de Ação Final:</b> "Enviar Solicitação" para submeter o pacote para análise, e "Cancelar" para descartar a operação atual.
+</p>
+
 ### Tela Dashboard - Coordenador
 
 ```kroki-plantuml
@@ -104,6 +127,13 @@ O desenvolvimento do protótipo baseou-se nos casos de uso e requisitos levantad
 }
 @endsalt
 ```
+
+<p align="justify">
+<b>Componentes da Tela:</b><br/>
+• <b>Cabeçalho:</b> Identificação clara do nível de acesso ("Painel do Coordenador").<br/>
+• <b>Área de Filtros:</b> Campos "Buscar Aluno" e "Status", acompanhados do botão "Filtrar", para facilitar a organização das pendências por parte do coordenador.<br/>
+• <b>Tabela "Pendências de Análise":</b> Lista das solicitações aguardando ação. Apresenta o nome do aluno, o tipo de documento, a data de envio e, crucialmente, o botão "Avaliar", que direciona o coordenador para a análise aprofundada.
+</p>
 
 ### Tela de Avaliação e Parecer - Coordenador
 
@@ -136,6 +166,14 @@ O desenvolvimento do protótipo baseou-se nos casos de uso e requisitos levantad
 @endsalt
 ```
 
+<p align="justify">
+<b>Componentes da Tela:</b><br/>
+• <b>Resumo da Solicitação:</b> Traz informações essenciais e um link "Visualizar" que possibilita inspecionar o arquivo anexado.<br/>
+• <b>Seção "Validação Automática do Sistema":</b> Exibe o "Score de Verificação" (ex: 95%) e itens de checklist pré-analisados pelo motor sistêmico de IA (Assinaturas digitais, carga horária), facilitando o julgamento humano.<br/>
+• <b>Seção "Parecer Técnico":</b> Contém opções de decisão (Aprovado, Devolvido, Reprovado) e uma área de texto livre para "Observações", justificando a escolha feita.<br/>
+• <b>Botão "Assinar e Encaminhar Institucionalmente":</b> Confirma a revisão e aciona o fluxo de assinatura digital do coordenador para prosseguimento do processo.
+</p>
+
 ### Tela Dashboard - Organização Parceira
 
 ```kroki-plantuml
@@ -153,6 +191,12 @@ O desenvolvimento do protótipo baseou-se nos casos de uso e requisitos levantad
 }
 @endsalt
 ```
+
+<p align="justify">
+<b>Componentes da Tela:</b><br/>
+• <b>Cabeçalho:</b> Identificação do acesso da Organização com ação de saída.<br/>
+• <b>Tabela "Validação de Propostas de Estágio":</b> Listagem simples exibindo quais propostas e documentos vinculados a alunos aguardam deliberação por parte da empresa. O botão "Revisar" abre o contrato para aprovação.
+</p>
 
 ### Tela de Revisão e Aceite - Organização Parceira
 
@@ -175,6 +219,14 @@ O desenvolvimento do protótipo baseou-se nos casos de uso e requisitos levantad
 }
 @endsalt
 ```
+
+<p align="justify">
+<b>Componentes da Tela:</b><br/>
+• <b>Botão "Visualizar Minuta do Contrato":</b> Exibe o documento previamente preparado para o supervisor/representante da empresa realizar a devida conferência.<br/>
+• <b>Termos de Concordância (Checkboxes):</b> Requisito legal de aceite, onde o parceiro concorda expressamente com os termos do estágio e as obrigações elencadas.<br/>
+• <b>Campo de Senha/Token:</b> Viabiliza autenticação da assinatura digital integrada para validação deste termo.<br/>
+• <b>Botões Finais:</b> "Aceitar Proposta e Assinar" para deferir, ou "Recusar Proposta", retornando a demanda com status e histórico apropriados.
+</p>
 
 ## Conclusão
 
