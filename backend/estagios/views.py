@@ -1,8 +1,30 @@
-from django.shortcuts import render
-from django.http import HttpResponse
-from .models import Aluno
+from rest_framework import viewsets
+from .models import Aluno, Coordenador, OrganizacaoParceira, Solicitacao, Documento, Analise
+from .serializers import (
+    AlunoSerializer, CoordenadorSerializer, OrganizacaoParceiraSerializer,
+    SolicitacaoSerializer, DocumentoSerializer, AnaliseSerializer
+)
 
-def home(request):
-    alunos = Aluno.objects.all()
-    lista_alunos = "<br>".join([str(a) for a in alunos])
-    return HttpResponse(f"<h1>Sistema de Estágios - Ibmec</h1><p>Alunos cadastrados:</p>{lista_alunos or 'Nenhum aluno cadastrado.'}")
+class AlunoViewSet(viewsets.ModelViewSet):
+    queryset = Aluno.objects.all()
+    serializer_class = AlunoSerializer
+
+class CoordenadorViewSet(viewsets.ModelViewSet):
+    queryset = Coordenador.objects.all()
+    serializer_class = CoordenadorSerializer
+
+class OrganizacaoParceiraViewSet(viewsets.ModelViewSet):
+    queryset = OrganizacaoParceira.objects.all()
+    serializer_class = OrganizacaoParceiraSerializer
+
+class SolicitacaoViewSet(viewsets.ModelViewSet):
+    queryset = Solicitacao.objects.all()
+    serializer_class = SolicitacaoSerializer
+
+class DocumentoViewSet(viewsets.ModelViewSet):
+    queryset = Documento.objects.all()
+    serializer_class = DocumentoSerializer
+
+class AnaliseViewSet(viewsets.ModelViewSet):
+    queryset = Analise.objects.all()
+    serializer_class = AnaliseSerializer
