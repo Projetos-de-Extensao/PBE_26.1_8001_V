@@ -1,10 +1,65 @@
 from django.contrib import admin
-from .models import Aluno, Coordenador, OrganizacaoParceira, Solicitacao, Documento, Analise
+from django.contrib.auth.admin import UserAdmin
+from django.contrib.auth.forms import UserCreationForm, UserChangeForm
+from .models import (
+    Usuario, Aluno, Coordenador, OrganizacaoParceira,
+    Solicitacao, Documento, Analise,
+)
+
+
+class CustomUserCreationForm(UserCreationForm):
+    class Meta(UserCreationForm.Meta):
+        model = Usuario
+        fields = ('username', 'is_staff', 'is_empresa', 'matricula')
+
+
+class CustomUserChangeForm(UserChangeForm):
+    class Meta(UserChangeForm.Meta):
+        model = Usuario
+        fields = '__all__'
+
+
+@admin.register(Usuario)
+class CustomUserAdmin(UserAdmin):
+    model = Usuario
+    form = CustomUserChangeForm
+    add_form = CustomUserCreationForm
+
+    # Tela de CRIAÇÃO: define os blocos de campos desde o zero
+    add_fieldsets = (
+        (None, {
+            'classes': ('wide',),
+            'fields': ('username', 'password1', 'password2'),
+        }),
+        ('Tipo de Conta', {
+            'fields': ('is_staff', 'is_empresa', 'matricula'),
+            'description': (
+                'Se nenhum marcador for selecionado, o usuário será tratado como <b>Aluno</b> '
+                'e a matrícula será obrigatória.<br>'
+                '"Membro da equipe" e "Empresa" não podem ser marcados ao mesmo tempo.'
+            ),
+        }),
+    )
+
+    # Tela de EDIÇÃO: adiciona a seção "Informações Adicionais"
+    fieldsets = UserAdmin.fieldsets + (
+        ('Informações Adicionais', {'fields': ('is_empresa', 'matricula')}),
+    )
+
+    list_display = ['username', 'email', 'is_staff', 'is_empresa', 'matricula']
+    search_fields = ['username', 'email', 'matricula']
+
 
 @admin.register(Aluno)
 class AlunoAdmin(admin.ModelAdmin):
-    list_display = ('nome', 'matricula', 'curso', 'campus', 'data_cadastro')
-    search_fields = ('nome', 'matricula')
+    list_display = ('nome', 'get_matricula', 'curso', 'campus', 'data_cadastro')
+    search_fields = ('nome', 'usuario__matricula')
+
+    def get_matricula(self, obj):
+        return obj.usuario.matricula if obj.usuario else None
+    get_matricula.short_description = 'Matrícula'
+    get_matricula.admin_order_field = 'usuario__matricula'
+
 
 @admin.register(Coordenador)
 class CoordenadorAdmin(admin.ModelAdmin):
