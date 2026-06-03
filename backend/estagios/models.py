@@ -6,17 +6,12 @@ from django.core.exceptions import ValidationError
 
 class Usuario(AbstractUser):
     is_empresa = models.BooleanField(default=False, verbose_name="Empresa")
-    matricula = models.CharField(max_length=20, blank=True, null=True, verbose_name="Matrícula")
+    matricula = models.CharField(max_length=50, unique=True, verbose_name="Matrícula / CNPJ / Identificador")
 
     def clean(self):
         super().clean()
         if self.is_staff and self.is_empresa:
             raise ValidationError("Um usuário não pode ser simultaneamente membro da equipe e empresa.")
-        
-        # Considera aluno se não for staff, não for empresa e não for superuser
-        if not self.is_staff and not self.is_empresa and not self.is_superuser:
-            if not self.matricula:
-                raise ValidationError({"matricula": "A matrícula é obrigatória para contas de alunos."})
 
     def __str__(self):
         return self.username

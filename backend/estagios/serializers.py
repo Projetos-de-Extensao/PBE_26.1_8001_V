@@ -51,15 +51,91 @@ class AlunoSerializer(serializers.ModelSerializer):
 
 
 class CoordenadorSerializer(serializers.ModelSerializer):
+    matricula = serializers.CharField(
+        write_only=True,
+        help_text="Matrícula/Identificador do usuário já cadastrado no sistema."
+    )
+    matricula_display = serializers.CharField(
+        source='usuario.matricula', read_only=True
+    )
+    usuario_username = serializers.CharField(
+        source='usuario.username', read_only=True
+    )
+
     class Meta:
         model = Coordenador
-        fields = '__all__'
+        fields = [
+            'id', 'matricula', 'matricula_display', 'usuario_username',
+            'nome', 'setor', 'usuario',
+        ]
+        read_only_fields = ['usuario']
+
+    def validate_matricula(self, value):
+        try:
+            usuario = Usuario.objects.get(matricula=value)
+        except Usuario.DoesNotExist:
+            raise serializers.ValidationError(
+                f"Nenhum usuário encontrado com o identificador '{value}'. "
+                "Certifique-se de que o usuário já foi cadastrado no painel Admin."
+            )
+        return value
+
+    def create(self, validated_data):
+        matricula = validated_data.pop('matricula')
+        usuario = Usuario.objects.get(matricula=matricula)
+        validated_data['usuario'] = usuario
+        return super().create(validated_data)
+
+    def update(self, instance, validated_data):
+        matricula = validated_data.pop('matricula', None)
+        if matricula:
+            usuario = Usuario.objects.get(matricula=matricula)
+            validated_data['usuario'] = usuario
+        return super().update(instance, validated_data)
 
 
 class OrganizacaoParceiraSerializer(serializers.ModelSerializer):
+    matricula = serializers.CharField(
+        write_only=True,
+        help_text="Matrícula/CNPJ/Identificador do usuário já cadastrado no sistema."
+    )
+    matricula_display = serializers.CharField(
+        source='usuario.matricula', read_only=True
+    )
+    usuario_username = serializers.CharField(
+        source='usuario.username', read_only=True
+    )
+
     class Meta:
         model = OrganizacaoParceira
-        fields = '__all__'
+        fields = [
+            'id', 'matricula', 'matricula_display', 'usuario_username',
+            'razao_social', 'cnpj', 'usuario',
+        ]
+        read_only_fields = ['usuario']
+
+    def validate_matricula(self, value):
+        try:
+            usuario = Usuario.objects.get(matricula=value)
+        except Usuario.DoesNotExist:
+            raise serializers.ValidationError(
+                f"Nenhum usuário encontrado com o identificador '{value}'. "
+                "Certifique-se de que o usuário já foi cadastrado no painel Admin."
+            )
+        return value
+
+    def create(self, validated_data):
+        matricula = validated_data.pop('matricula')
+        usuario = Usuario.objects.get(matricula=matricula)
+        validated_data['usuario'] = usuario
+        return super().create(validated_data)
+
+    def update(self, instance, validated_data):
+        matricula = validated_data.pop('matricula', None)
+        if matricula:
+            usuario = Usuario.objects.get(matricula=matricula)
+            validated_data['usuario'] = usuario
+        return super().update(instance, validated_data)
 
 
 class ModeloDocumentoSerializer(serializers.ModelSerializer):

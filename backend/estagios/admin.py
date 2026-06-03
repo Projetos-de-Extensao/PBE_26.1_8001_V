@@ -34,9 +34,8 @@ class CustomUserAdmin(UserAdmin):
         ('Tipo de Conta', {
             'fields': ('is_staff', 'is_empresa', 'matricula'),
             'description': (
-                'Se nenhum marcador for selecionado, o usuário será tratado como <b>Aluno</b> '
-                'e a matrícula será obrigatória.<br>'
-                '"Membro da equipe" e "Empresa" não podem ser marcados ao mesmo tempo.'
+                '<b>Atenção:</b> O campo Matrícula / CNPJ / Identificador é <b>obrigatório</b> para todos os usuários.<br>'
+                'Ele será usado como chave para vincular este usuário via API.'
             ),
         }),
     )
