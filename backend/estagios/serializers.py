@@ -1,9 +1,19 @@
+# pyrefly: ignore [missing-import]
 from rest_framework import serializers
 from .models import (
     Aluno, Coordenador, OrganizacaoParceira, Solicitacao, Documento,
     Analise, Checklist, ItemChecklist, ModeloDocumento, Notificacao,
     AssinaturaDigital, Encaminhamento, Usuario,
 )
+
+
+class ObservacaoSerializer(serializers.Serializer):
+    observacoes = serializers.CharField(
+        required=False,
+        allow_blank=True,
+        help_text="Observações opcionais."
+    )
+
 
 
 class AlunoSerializer(serializers.ModelSerializer):
@@ -198,7 +208,7 @@ class AssinaturaDigitalSerializer(serializers.ModelSerializer):
     class Meta:
         model = AssinaturaDigital
         fields = '__all__'
-        read_only_fields = ['data_assinatura']
+        read_only_fields = ['data_assinatura', 'hash_assinatura', 'assinante']
 
 
 class EncaminhamentoSerializer(serializers.ModelSerializer):

@@ -1,0 +1,3459 @@
+openapi: 3.0.3
+info:
+  title: API de Gestão de Estágios
+  version: 1.0.0
+  description: API para o Sistema de Gestão e Validação de Estágios
+paths:
+  /api/alunos/:
+    get:
+      operationId: alunos_list
+      description: CRUD de alunos.
+      parameters:
+      - in: query
+        name: campus
+        schema:
+          type: string
+      - in: query
+        name: curso
+        schema:
+          type: string
+      - name: ordering
+        required: false
+        in: query
+        description: Qual campo usar ao ordenar os resultados.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: Um número de página dentro do conjunto de resultados paginado.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: Um termo de busca.
+        schema:
+          type: string
+      tags:
+      - alunos
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedAlunoList'
+          description: ''
+    post:
+      operationId: alunos_create
+      description: CRUD de alunos.
+      tags:
+      - alunos
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Aluno'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Aluno'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Aluno'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Aluno'
+          description: ''
+  /api/alunos/{id}/:
+    get:
+      operationId: alunos_retrieve
+      description: CRUD de alunos.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este aluno.
+        required: true
+      tags:
+      - alunos
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Aluno'
+          description: ''
+    put:
+      operationId: alunos_update
+      description: CRUD de alunos.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este aluno.
+        required: true
+      tags:
+      - alunos
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Aluno'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Aluno'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Aluno'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Aluno'
+          description: ''
+    patch:
+      operationId: alunos_partial_update
+      description: CRUD de alunos.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este aluno.
+        required: true
+      tags:
+      - alunos
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedAluno'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedAluno'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedAluno'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Aluno'
+          description: ''
+    delete:
+      operationId: alunos_destroy
+      description: CRUD de alunos.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este aluno.
+        required: true
+      tags:
+      - alunos
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/analises/:
+    get:
+      operationId: analises_list
+      parameters:
+      - in: query
+        name: coordenador
+        schema:
+          type: integer
+      - name: ordering
+        required: false
+        in: query
+        description: Qual campo usar ao ordenar os resultados.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: Um número de página dentro do conjunto de resultados paginado.
+        schema:
+          type: integer
+      - in: query
+        name: resultado
+        schema:
+          type: string
+          enum:
+          - APROVADO
+          - CORRECAO_NECESSARIA
+          - REPROVADO
+        description: |-
+          * `APROVADO` - Aprovado
+          * `REPROVADO` - Reprovado
+          * `CORRECAO_NECESSARIA` - Correção Necessária
+      - name: search
+        required: false
+        in: query
+        description: Um termo de busca.
+        schema:
+          type: string
+      tags:
+      - analises
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedAnaliseList'
+          description: ''
+    post:
+      operationId: analises_create
+      tags:
+      - analises
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Analise'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Analise'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Analise'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Analise'
+          description: ''
+  /api/analises/{id}/:
+    get:
+      operationId: analises_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este analise.
+        required: true
+      tags:
+      - analises
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Analise'
+          description: ''
+    put:
+      operationId: analises_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este analise.
+        required: true
+      tags:
+      - analises
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Analise'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Analise'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Analise'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Analise'
+          description: ''
+    patch:
+      operationId: analises_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este analise.
+        required: true
+      tags:
+      - analises
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedAnalise'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedAnalise'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedAnalise'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Analise'
+          description: ''
+    delete:
+      operationId: analises_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este analise.
+        required: true
+      tags:
+      - analises
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/assinaturas/:
+    get:
+      operationId: assinaturas_list
+      parameters:
+      - in: query
+        name: assinante
+        schema:
+          type: integer
+      - in: query
+        name: documento
+        schema:
+          type: integer
+      - name: ordering
+        required: false
+        in: query
+        description: Qual campo usar ao ordenar os resultados.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: Um número de página dentro do conjunto de resultados paginado.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: Um termo de busca.
+        schema:
+          type: string
+      - in: query
+        name: valida
+        schema:
+          type: boolean
+      tags:
+      - assinaturas
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedAssinaturaDigitalList'
+          description: ''
+    post:
+      operationId: assinaturas_create
+      tags:
+      - assinaturas
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssinaturaDigital'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AssinaturaDigital'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AssinaturaDigital'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssinaturaDigital'
+          description: ''
+  /api/assinaturas/{id}/:
+    get:
+      operationId: assinaturas_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este assinatura digital.
+        required: true
+      tags:
+      - assinaturas
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssinaturaDigital'
+          description: ''
+    put:
+      operationId: assinaturas_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este assinatura digital.
+        required: true
+      tags:
+      - assinaturas
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/AssinaturaDigital'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/AssinaturaDigital'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/AssinaturaDigital'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssinaturaDigital'
+          description: ''
+    patch:
+      operationId: assinaturas_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este assinatura digital.
+        required: true
+      tags:
+      - assinaturas
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedAssinaturaDigital'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedAssinaturaDigital'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedAssinaturaDigital'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/AssinaturaDigital'
+          description: ''
+    delete:
+      operationId: assinaturas_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este assinatura digital.
+        required: true
+      tags:
+      - assinaturas
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/checklists/:
+    get:
+      operationId: checklists_list
+      parameters:
+      - in: query
+        name: completo
+        schema:
+          type: boolean
+      - name: ordering
+        required: false
+        in: query
+        description: Qual campo usar ao ordenar os resultados.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: Um número de página dentro do conjunto de resultados paginado.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: Um termo de busca.
+        schema:
+          type: string
+      tags:
+      - checklists
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedChecklistList'
+          description: ''
+    post:
+      operationId: checklists_create
+      tags:
+      - checklists
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Checklist'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Checklist'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Checklist'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Checklist'
+          description: ''
+  /api/checklists/{id}/:
+    get:
+      operationId: checklists_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este checklist.
+        required: true
+      tags:
+      - checklists
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Checklist'
+          description: ''
+    put:
+      operationId: checklists_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este checklist.
+        required: true
+      tags:
+      - checklists
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Checklist'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Checklist'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Checklist'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Checklist'
+          description: ''
+    patch:
+      operationId: checklists_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este checklist.
+        required: true
+      tags:
+      - checklists
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedChecklist'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedChecklist'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedChecklist'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Checklist'
+          description: ''
+    delete:
+      operationId: checklists_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este checklist.
+        required: true
+      tags:
+      - checklists
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/coordenadores/:
+    get:
+      operationId: coordenadores_list
+      description: CRUD de coordenadores.
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Qual campo usar ao ordenar os resultados.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: Um número de página dentro do conjunto de resultados paginado.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: Um termo de busca.
+        schema:
+          type: string
+      - in: query
+        name: setor
+        schema:
+          type: string
+      tags:
+      - coordenadores
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedCoordenadorList'
+          description: ''
+    post:
+      operationId: coordenadores_create
+      description: CRUD de coordenadores.
+      tags:
+      - coordenadores
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Coordenador'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Coordenador'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Coordenador'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Coordenador'
+          description: ''
+  /api/coordenadores/{id}/:
+    get:
+      operationId: coordenadores_retrieve
+      description: CRUD de coordenadores.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este coordenador.
+        required: true
+      tags:
+      - coordenadores
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Coordenador'
+          description: ''
+    put:
+      operationId: coordenadores_update
+      description: CRUD de coordenadores.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este coordenador.
+        required: true
+      tags:
+      - coordenadores
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Coordenador'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Coordenador'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Coordenador'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Coordenador'
+          description: ''
+    patch:
+      operationId: coordenadores_partial_update
+      description: CRUD de coordenadores.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este coordenador.
+        required: true
+      tags:
+      - coordenadores
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedCoordenador'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedCoordenador'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedCoordenador'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Coordenador'
+          description: ''
+    delete:
+      operationId: coordenadores_destroy
+      description: CRUD de coordenadores.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este coordenador.
+        required: true
+      tags:
+      - coordenadores
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/documentos/:
+    get:
+      operationId: documentos_list
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Qual campo usar ao ordenar os resultados.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: Um número de página dentro do conjunto de resultados paginado.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: Um termo de busca.
+        schema:
+          type: string
+      - in: query
+        name: solicitacao
+        schema:
+          type: integer
+      - in: query
+        name: status_validacao
+        schema:
+          type: string
+      - in: query
+        name: tipo
+        schema:
+          type: string
+      tags:
+      - documentos
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedDocumentoList'
+          description: ''
+    post:
+      operationId: documentos_create
+      tags:
+      - documentos
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Documento'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Documento'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Documento'
+          description: ''
+  /api/documentos/{id}/:
+    get:
+      operationId: documentos_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este documento.
+        required: true
+      tags:
+      - documentos
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Documento'
+          description: ''
+    put:
+      operationId: documentos_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este documento.
+        required: true
+      tags:
+      - documentos
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Documento'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Documento'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Documento'
+          description: ''
+    patch:
+      operationId: documentos_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este documento.
+        required: true
+      tags:
+      - documentos
+      requestBody:
+        content:
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedDocumento'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedDocumento'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Documento'
+          description: ''
+    delete:
+      operationId: documentos_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este documento.
+        required: true
+      tags:
+      - documentos
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/empresas/:
+    get:
+      operationId: empresas_list
+      description: CRUD de organizações parceiras.
+      parameters:
+      - in: query
+        name: cnpj
+        schema:
+          type: string
+      - name: ordering
+        required: false
+        in: query
+        description: Qual campo usar ao ordenar os resultados.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: Um número de página dentro do conjunto de resultados paginado.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: Um termo de busca.
+        schema:
+          type: string
+      tags:
+      - empresas
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedOrganizacaoParceiraList'
+          description: ''
+    post:
+      operationId: empresas_create
+      description: CRUD de organizações parceiras.
+      tags:
+      - empresas
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizacaoParceira'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/OrganizacaoParceira'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/OrganizacaoParceira'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizacaoParceira'
+          description: ''
+  /api/empresas/{id}/:
+    get:
+      operationId: empresas_retrieve
+      description: CRUD de organizações parceiras.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este organizacao parceira.
+        required: true
+      tags:
+      - empresas
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizacaoParceira'
+          description: ''
+    put:
+      operationId: empresas_update
+      description: CRUD de organizações parceiras.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este organizacao parceira.
+        required: true
+      tags:
+      - empresas
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/OrganizacaoParceira'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/OrganizacaoParceira'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/OrganizacaoParceira'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizacaoParceira'
+          description: ''
+    patch:
+      operationId: empresas_partial_update
+      description: CRUD de organizações parceiras.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este organizacao parceira.
+        required: true
+      tags:
+      - empresas
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedOrganizacaoParceira'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedOrganizacaoParceira'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedOrganizacaoParceira'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/OrganizacaoParceira'
+          description: ''
+    delete:
+      operationId: empresas_destroy
+      description: CRUD de organizações parceiras.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este organizacao parceira.
+        required: true
+      tags:
+      - empresas
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/encaminhamentos/:
+    get:
+      operationId: encaminhamentos_list
+      parameters:
+      - in: query
+        name: coordenador
+        schema:
+          type: integer
+      - name: ordering
+        required: false
+        in: query
+        description: Qual campo usar ao ordenar os resultados.
+        schema:
+          type: string
+      - in: query
+        name: organizacao
+        schema:
+          type: integer
+      - name: page
+        required: false
+        in: query
+        description: Um número de página dentro do conjunto de resultados paginado.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: Um termo de busca.
+        schema:
+          type: string
+      - in: query
+        name: solicitacao
+        schema:
+          type: integer
+      tags:
+      - encaminhamentos
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedEncaminhamentoList'
+          description: ''
+    post:
+      operationId: encaminhamentos_create
+      tags:
+      - encaminhamentos
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Encaminhamento'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Encaminhamento'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Encaminhamento'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Encaminhamento'
+          description: ''
+  /api/encaminhamentos/{id}/:
+    get:
+      operationId: encaminhamentos_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este encaminhamento.
+        required: true
+      tags:
+      - encaminhamentos
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Encaminhamento'
+          description: ''
+    put:
+      operationId: encaminhamentos_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este encaminhamento.
+        required: true
+      tags:
+      - encaminhamentos
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Encaminhamento'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Encaminhamento'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Encaminhamento'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Encaminhamento'
+          description: ''
+    patch:
+      operationId: encaminhamentos_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este encaminhamento.
+        required: true
+      tags:
+      - encaminhamentos
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedEncaminhamento'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedEncaminhamento'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedEncaminhamento'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Encaminhamento'
+          description: ''
+    delete:
+      operationId: encaminhamentos_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este encaminhamento.
+        required: true
+      tags:
+      - encaminhamentos
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/encaminhamentos/{id}/aceitar/:
+    post:
+      operationId: encaminhamentos_aceitar_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este encaminhamento.
+        required: true
+      tags:
+      - encaminhamentos
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Encaminhamento'
+          description: ''
+  /api/encaminhamentos/{id}/recusar/:
+    post:
+      operationId: encaminhamentos_recusar_create
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este encaminhamento.
+        required: true
+      tags:
+      - encaminhamentos
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Observacao'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Observacao'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Observacao'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Encaminhamento'
+          description: ''
+  /api/itens-checklist/:
+    get:
+      operationId: itens_checklist_list
+      parameters:
+      - in: query
+        name: checklist
+        schema:
+          type: integer
+      - name: ordering
+        required: false
+        in: query
+        description: Qual campo usar ao ordenar os resultados.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: Um número de página dentro do conjunto de resultados paginado.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: Um termo de busca.
+        schema:
+          type: string
+      - in: query
+        name: status
+        schema:
+          type: string
+          enum:
+          - APROVADO
+          - ENVIADO
+          - PENDENTE
+          - REJEITADO
+        description: |-
+          * `PENDENTE` - Pendente
+          * `ENVIADO` - Enviado
+          * `APROVADO` - Aprovado
+          * `REJEITADO` - Rejeitado
+      tags:
+      - itens-checklist
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedItemChecklistList'
+          description: ''
+    post:
+      operationId: itens_checklist_create
+      tags:
+      - itens-checklist
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ItemChecklist'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ItemChecklist'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ItemChecklist'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemChecklist'
+          description: ''
+  /api/itens-checklist/{id}/:
+    get:
+      operationId: itens_checklist_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este item checklist.
+        required: true
+      tags:
+      - itens-checklist
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemChecklist'
+          description: ''
+    put:
+      operationId: itens_checklist_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este item checklist.
+        required: true
+      tags:
+      - itens-checklist
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ItemChecklist'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ItemChecklist'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ItemChecklist'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemChecklist'
+          description: ''
+    patch:
+      operationId: itens_checklist_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este item checklist.
+        required: true
+      tags:
+      - itens-checklist
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedItemChecklist'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedItemChecklist'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedItemChecklist'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ItemChecklist'
+          description: ''
+    delete:
+      operationId: itens_checklist_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este item checklist.
+        required: true
+      tags:
+      - itens-checklist
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/modelos-documento/:
+    get:
+      operationId: modelos_documento_list
+      description: CRUD de modelos/templates de documentos.
+      parameters:
+      - name: ordering
+        required: false
+        in: query
+        description: Qual campo usar ao ordenar os resultados.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: Um número de página dentro do conjunto de resultados paginado.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: Um termo de busca.
+        schema:
+          type: string
+      tags:
+      - modelos-documento
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedModeloDocumentoList'
+          description: ''
+    post:
+      operationId: modelos_documento_create
+      description: CRUD de modelos/templates de documentos.
+      tags:
+      - modelos-documento
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ModeloDocumento'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ModeloDocumento'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ModeloDocumento'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModeloDocumento'
+          description: ''
+  /api/modelos-documento/{id}/:
+    get:
+      operationId: modelos_documento_retrieve
+      description: CRUD de modelos/templates de documentos.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este modelo documento.
+        required: true
+      tags:
+      - modelos-documento
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModeloDocumento'
+          description: ''
+    put:
+      operationId: modelos_documento_update
+      description: CRUD de modelos/templates de documentos.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este modelo documento.
+        required: true
+      tags:
+      - modelos-documento
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ModeloDocumento'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/ModeloDocumento'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/ModeloDocumento'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModeloDocumento'
+          description: ''
+    patch:
+      operationId: modelos_documento_partial_update
+      description: CRUD de modelos/templates de documentos.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este modelo documento.
+        required: true
+      tags:
+      - modelos-documento
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedModeloDocumento'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedModeloDocumento'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedModeloDocumento'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ModeloDocumento'
+          description: ''
+    delete:
+      operationId: modelos_documento_destroy
+      description: CRUD de modelos/templates de documentos.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este modelo documento.
+        required: true
+      tags:
+      - modelos-documento
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/notificacoes/:
+    get:
+      operationId: notificacoes_list
+      parameters:
+      - in: query
+        name: lida
+        schema:
+          type: boolean
+      - name: ordering
+        required: false
+        in: query
+        description: Qual campo usar ao ordenar os resultados.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: Um número de página dentro do conjunto de resultados paginado.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: Um termo de busca.
+        schema:
+          type: string
+      - in: query
+        name: tipo_evento
+        schema:
+          type: string
+          enum:
+          - ANALISE_CONCLUIDA
+          - CORRECAO_SOLICITADA
+          - DOCUMENTO_ENVIADO
+          - ENCAMINHAMENTO_REALIZADO
+          - SOLICITACAO_APROVADA
+          - SOLICITACAO_CRIADA
+          - SOLICITACAO_REPROVADA
+        description: |-
+          * `SOLICITACAO_CRIADA` - Solicitação Criada
+          * `DOCUMENTO_ENVIADO` - Documento Enviado
+          * `ANALISE_CONCLUIDA` - Análise Concluída
+          * `CORRECAO_SOLICITADA` - Correção Solicitada
+          * `SOLICITACAO_APROVADA` - Solicitação Aprovada
+          * `SOLICITACAO_REPROVADA` - Solicitação Reprovada
+          * `ENCAMINHAMENTO_REALIZADO` - Encaminhamento Realizado
+      tags:
+      - notificacoes
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedNotificacaoList'
+          description: ''
+    post:
+      operationId: notificacoes_create
+      tags:
+      - notificacoes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Notificacao'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Notificacao'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Notificacao'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notificacao'
+          description: ''
+  /api/notificacoes/{id}/:
+    get:
+      operationId: notificacoes_retrieve
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este notificacao.
+        required: true
+      tags:
+      - notificacoes
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notificacao'
+          description: ''
+    put:
+      operationId: notificacoes_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este notificacao.
+        required: true
+      tags:
+      - notificacoes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Notificacao'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Notificacao'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Notificacao'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notificacao'
+          description: ''
+    patch:
+      operationId: notificacoes_partial_update
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este notificacao.
+        required: true
+      tags:
+      - notificacoes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedNotificacao'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedNotificacao'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedNotificacao'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Notificacao'
+          description: ''
+    delete:
+      operationId: notificacoes_destroy
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este notificacao.
+        required: true
+      tags:
+      - notificacoes
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/solicitacoes/:
+    get:
+      operationId: solicitacoes_list
+      description: CRUD de solicitações de estágio com nested data.
+      parameters:
+      - in: query
+        name: campus
+        schema:
+          type: string
+      - in: query
+        name: curso
+        schema:
+          type: string
+      - name: ordering
+        required: false
+        in: query
+        description: Qual campo usar ao ordenar os resultados.
+        schema:
+          type: string
+      - name: page
+        required: false
+        in: query
+        description: Um número de página dentro do conjunto de resultados paginado.
+        schema:
+          type: integer
+      - name: search
+        required: false
+        in: query
+        description: Um termo de busca.
+        schema:
+          type: string
+      - in: query
+        name: status
+        schema:
+          type: string
+          enum:
+          - APROVADA
+          - CORRECAO_NECESSARIA
+          - CRIADA
+          - EM_VALIDACAO
+          - ENCAMINHADA
+          - REPROVADA
+        description: |-
+          * `CRIADA` - Criada
+          * `EM_VALIDACAO` - Em Validação
+          * `CORRECAO_NECESSARIA` - Correção Necessária
+          * `APROVADA` - Aprovada
+          * `REPROVADA` - Reprovada
+          * `ENCAMINHADA` - Encaminhada
+      tags:
+      - solicitacoes
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/PaginatedSolicitacaoList'
+          description: ''
+    post:
+      operationId: solicitacoes_create
+      description: CRUD de solicitações de estágio com nested data.
+      tags:
+      - solicitacoes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Solicitacao'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Solicitacao'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Solicitacao'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '201':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Solicitacao'
+          description: ''
+  /api/solicitacoes/{id}/:
+    get:
+      operationId: solicitacoes_retrieve
+      description: CRUD de solicitações de estágio com nested data.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este solicitacao.
+        required: true
+      tags:
+      - solicitacoes
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Solicitacao'
+          description: ''
+    put:
+      operationId: solicitacoes_update
+      description: CRUD de solicitações de estágio com nested data.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este solicitacao.
+        required: true
+      tags:
+      - solicitacoes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Solicitacao'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Solicitacao'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Solicitacao'
+        required: true
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Solicitacao'
+          description: ''
+    patch:
+      operationId: solicitacoes_partial_update
+      description: CRUD de solicitações de estágio com nested data.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este solicitacao.
+        required: true
+      tags:
+      - solicitacoes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PatchedSolicitacao'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/PatchedSolicitacao'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/PatchedSolicitacao'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Solicitacao'
+          description: ''
+    delete:
+      operationId: solicitacoes_destroy
+      description: CRUD de solicitações de estágio com nested data.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este solicitacao.
+        required: true
+      tags:
+      - solicitacoes
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '204':
+          description: No response body
+  /api/solicitacoes/{id}/aprovar/:
+    post:
+      operationId: solicitacoes_aprovar_create
+      description: CRUD de solicitações de estágio com nested data.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este solicitacao.
+        required: true
+      tags:
+      - solicitacoes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Observacao'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Observacao'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Observacao'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Solicitacao'
+          description: ''
+  /api/solicitacoes/{id}/reprovar/:
+    post:
+      operationId: solicitacoes_reprovar_create
+      description: CRUD de solicitações de estágio com nested data.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este solicitacao.
+        required: true
+      tags:
+      - solicitacoes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Observacao'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Observacao'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Observacao'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Solicitacao'
+          description: ''
+  /api/solicitacoes/{id}/solicitar-correcao/:
+    post:
+      operationId: solicitacoes_solicitar_correcao_create
+      description: CRUD de solicitações de estágio com nested data.
+      parameters:
+      - in: path
+        name: id
+        schema:
+          type: integer
+        description: Um valor inteiro único que identifica este solicitacao.
+        required: true
+      tags:
+      - solicitacoes
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Observacao'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/Observacao'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/Observacao'
+      security:
+      - jwtAuth: []
+      - cookieAuth: []
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Solicitacao'
+          description: ''
+  /api/token/:
+    post:
+      operationId: token_create
+      description: |-
+        Takes a set of user credentials and returns an access and refresh JSON web
+        token pair to prove the authentication of those credentials.
+      tags:
+      - token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenObtainPair'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenObtainPair'
+          description: ''
+  /api/token/refresh/:
+    post:
+      operationId: token_refresh_create
+      description: |-
+        Takes a refresh type JSON web token and returns an access type JSON web
+        token if the refresh token is valid.
+      tags:
+      - token
+      requestBody:
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          application/x-www-form-urlencoded:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+          multipart/form-data:
+            schema:
+              $ref: '#/components/schemas/TokenRefresh'
+        required: true
+      responses:
+        '200':
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TokenRefresh'
+          description: ''
+components:
+  schemas:
+    Aluno:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        matricula:
+          type: string
+          writeOnly: true
+          description: Matrícula do usuário já cadastrado no sistema.
+        matricula_display:
+          type: string
+          readOnly: true
+        usuario_username:
+          type: string
+          readOnly: true
+        nome:
+          type: string
+          maxLength: 200
+        curso:
+          type: string
+          maxLength: 100
+        campus:
+          type: string
+          nullable: true
+          maxLength: 100
+        data_cadastro:
+          type: string
+          format: date-time
+          readOnly: true
+        usuario:
+          type: integer
+          readOnly: true
+      required:
+      - curso
+      - data_cadastro
+      - id
+      - matricula
+      - matricula_display
+      - nome
+      - usuario
+      - usuario_username
+    Analise:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        coordenador_nome:
+          type: string
+          readOnly: true
+        data_analise:
+          type: string
+          format: date-time
+          readOnly: true
+        resultado:
+          $ref: '#/components/schemas/ResultadoEnum'
+        observacoes:
+          type: string
+          nullable: true
+        solicitacao:
+          type: integer
+        coordenador:
+          type: integer
+          nullable: true
+      required:
+      - coordenador_nome
+      - data_analise
+      - id
+      - resultado
+      - solicitacao
+    AssinaturaDigital:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        assinante_username:
+          type: string
+          readOnly: true
+        hash_assinatura:
+          type: string
+          readOnly: true
+        data_assinatura:
+          type: string
+          format: date-time
+          readOnly: true
+        valida:
+          type: boolean
+        documento:
+          type: integer
+        assinante:
+          type: integer
+          readOnly: true
+      required:
+      - assinante
+      - assinante_username
+      - data_assinatura
+      - documento
+      - hash_assinatura
+      - id
+    Checklist:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        itens:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemChecklist'
+          readOnly: true
+        completo:
+          type: boolean
+        data_criacao:
+          type: string
+          format: date-time
+          readOnly: true
+        data_atualizacao:
+          type: string
+          format: date-time
+          readOnly: true
+        solicitacao:
+          type: integer
+        modelo_documento:
+          type: array
+          items:
+            type: integer
+          readOnly: true
+      required:
+      - data_atualizacao
+      - data_criacao
+      - id
+      - itens
+      - modelo_documento
+      - solicitacao
+    Coordenador:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        matricula:
+          type: string
+          writeOnly: true
+          description: Matrícula/Identificador do usuário já cadastrado no sistema.
+        matricula_display:
+          type: string
+          readOnly: true
+        usuario_username:
+          type: string
+          readOnly: true
+        nome:
+          type: string
+          maxLength: 200
+        setor:
+          type: string
+          maxLength: 100
+        usuario:
+          type: integer
+          readOnly: true
+      required:
+      - id
+      - matricula
+      - matricula_display
+      - nome
+      - setor
+      - usuario
+      - usuario_username
+    Documento:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        nome:
+          type: string
+          maxLength: 150
+        tipo:
+          type: string
+          maxLength: 50
+        arquivo:
+          type: string
+          format: uri
+        status_validacao:
+          type: string
+          readOnly: true
+        data_envio:
+          type: string
+          format: date-time
+          readOnly: true
+        solicitacao:
+          type: integer
+      required:
+      - arquivo
+      - data_envio
+      - id
+      - nome
+      - solicitacao
+      - status_validacao
+      - tipo
+    Encaminhamento:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        organizacao_nome:
+          type: string
+          readOnly: true
+        coordenador_nome:
+          type: string
+          readOnly: true
+        observacoes:
+          type: string
+          nullable: true
+        data_encaminhamento:
+          type: string
+          format: date-time
+          readOnly: true
+        solicitacao:
+          type: integer
+        organizacao:
+          type: integer
+        coordenador:
+          type: integer
+          nullable: true
+      required:
+      - coordenador_nome
+      - data_encaminhamento
+      - id
+      - organizacao
+      - organizacao_nome
+      - solicitacao
+    ItemChecklist:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        modelo_documento_nome:
+          type: string
+          readOnly: true
+        status:
+          $ref: '#/components/schemas/ItemChecklistStatusEnum'
+        observacao:
+          type: string
+          nullable: true
+        checklist:
+          type: integer
+          readOnly: true
+        modelo_documento:
+          type: integer
+      required:
+      - checklist
+      - id
+      - modelo_documento
+      - modelo_documento_nome
+    ItemChecklistStatusEnum:
+      enum:
+      - PENDENTE
+      - ENVIADO
+      - APROVADO
+      - REJEITADO
+      type: string
+      description: |-
+        * `PENDENTE` - Pendente
+        * `ENVIADO` - Enviado
+        * `APROVADO` - Aprovado
+        * `REJEITADO` - Rejeitado
+    ModeloDocumento:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        nome:
+          type: string
+          maxLength: 200
+        descricao:
+          type: string
+          nullable: true
+        arquivo_template:
+          type: string
+          format: uri
+          nullable: true
+        obrigatorio:
+          type: boolean
+        data_criacao:
+          type: string
+          format: date-time
+          readOnly: true
+        data_atualizacao:
+          type: string
+          format: date-time
+          readOnly: true
+      required:
+      - data_atualizacao
+      - data_criacao
+      - id
+      - nome
+    Notificacao:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        tipo_evento:
+          $ref: '#/components/schemas/TipoEventoEnum'
+        mensagem:
+          type: string
+        lida:
+          type: boolean
+        data_criacao:
+          type: string
+          format: date-time
+          readOnly: true
+        destinatario:
+          type: integer
+        solicitacao:
+          type: integer
+          nullable: true
+      required:
+      - data_criacao
+      - destinatario
+      - id
+      - mensagem
+      - tipo_evento
+    Observacao:
+      type: object
+      properties:
+        observacoes:
+          type: string
+          description: Observações opcionais.
+    OrganizacaoParceira:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        matricula:
+          type: string
+          writeOnly: true
+          description: Matrícula/CNPJ/Identificador do usuário já cadastrado no sistema.
+        matricula_display:
+          type: string
+          readOnly: true
+        usuario_username:
+          type: string
+          readOnly: true
+        razao_social:
+          type: string
+          maxLength: 200
+        cnpj:
+          type: string
+          maxLength: 20
+        usuario:
+          type: integer
+          readOnly: true
+      required:
+      - cnpj
+      - id
+      - matricula
+      - matricula_display
+      - razao_social
+      - usuario
+      - usuario_username
+    PaginatedAlunoList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Aluno'
+    PaginatedAnaliseList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Analise'
+    PaginatedAssinaturaDigitalList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/AssinaturaDigital'
+    PaginatedChecklistList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Checklist'
+    PaginatedCoordenadorList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Coordenador'
+    PaginatedDocumentoList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Documento'
+    PaginatedEncaminhamentoList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Encaminhamento'
+    PaginatedItemChecklistList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemChecklist'
+    PaginatedModeloDocumentoList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/ModeloDocumento'
+    PaginatedNotificacaoList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Notificacao'
+    PaginatedOrganizacaoParceiraList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/OrganizacaoParceira'
+    PaginatedSolicitacaoList:
+      type: object
+      required:
+      - count
+      - results
+      properties:
+        count:
+          type: integer
+          example: 123
+        next:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=4
+        previous:
+          type: string
+          nullable: true
+          format: uri
+          example: http://api.example.org/accounts/?page=2
+        results:
+          type: array
+          items:
+            $ref: '#/components/schemas/Solicitacao'
+    PatchedAluno:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        matricula:
+          type: string
+          writeOnly: true
+          description: Matrícula do usuário já cadastrado no sistema.
+        matricula_display:
+          type: string
+          readOnly: true
+        usuario_username:
+          type: string
+          readOnly: true
+        nome:
+          type: string
+          maxLength: 200
+        curso:
+          type: string
+          maxLength: 100
+        campus:
+          type: string
+          nullable: true
+          maxLength: 100
+        data_cadastro:
+          type: string
+          format: date-time
+          readOnly: true
+        usuario:
+          type: integer
+          readOnly: true
+    PatchedAnalise:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        coordenador_nome:
+          type: string
+          readOnly: true
+        data_analise:
+          type: string
+          format: date-time
+          readOnly: true
+        resultado:
+          $ref: '#/components/schemas/ResultadoEnum'
+        observacoes:
+          type: string
+          nullable: true
+        solicitacao:
+          type: integer
+        coordenador:
+          type: integer
+          nullable: true
+    PatchedAssinaturaDigital:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        assinante_username:
+          type: string
+          readOnly: true
+        hash_assinatura:
+          type: string
+          readOnly: true
+        data_assinatura:
+          type: string
+          format: date-time
+          readOnly: true
+        valida:
+          type: boolean
+        documento:
+          type: integer
+        assinante:
+          type: integer
+          readOnly: true
+    PatchedChecklist:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        itens:
+          type: array
+          items:
+            $ref: '#/components/schemas/ItemChecklist'
+          readOnly: true
+        completo:
+          type: boolean
+        data_criacao:
+          type: string
+          format: date-time
+          readOnly: true
+        data_atualizacao:
+          type: string
+          format: date-time
+          readOnly: true
+        solicitacao:
+          type: integer
+        modelo_documento:
+          type: array
+          items:
+            type: integer
+          readOnly: true
+    PatchedCoordenador:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        matricula:
+          type: string
+          writeOnly: true
+          description: Matrícula/Identificador do usuário já cadastrado no sistema.
+        matricula_display:
+          type: string
+          readOnly: true
+        usuario_username:
+          type: string
+          readOnly: true
+        nome:
+          type: string
+          maxLength: 200
+        setor:
+          type: string
+          maxLength: 100
+        usuario:
+          type: integer
+          readOnly: true
+    PatchedDocumento:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        nome:
+          type: string
+          maxLength: 150
+        tipo:
+          type: string
+          maxLength: 50
+        arquivo:
+          type: string
+          format: uri
+        status_validacao:
+          type: string
+          readOnly: true
+        data_envio:
+          type: string
+          format: date-time
+          readOnly: true
+        solicitacao:
+          type: integer
+    PatchedEncaminhamento:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        organizacao_nome:
+          type: string
+          readOnly: true
+        coordenador_nome:
+          type: string
+          readOnly: true
+        observacoes:
+          type: string
+          nullable: true
+        data_encaminhamento:
+          type: string
+          format: date-time
+          readOnly: true
+        solicitacao:
+          type: integer
+        organizacao:
+          type: integer
+        coordenador:
+          type: integer
+          nullable: true
+    PatchedItemChecklist:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        modelo_documento_nome:
+          type: string
+          readOnly: true
+        status:
+          $ref: '#/components/schemas/ItemChecklistStatusEnum'
+        observacao:
+          type: string
+          nullable: true
+        checklist:
+          type: integer
+          readOnly: true
+        modelo_documento:
+          type: integer
+    PatchedModeloDocumento:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        nome:
+          type: string
+          maxLength: 200
+        descricao:
+          type: string
+          nullable: true
+        arquivo_template:
+          type: string
+          format: uri
+          nullable: true
+        obrigatorio:
+          type: boolean
+        data_criacao:
+          type: string
+          format: date-time
+          readOnly: true
+        data_atualizacao:
+          type: string
+          format: date-time
+          readOnly: true
+    PatchedNotificacao:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        tipo_evento:
+          $ref: '#/components/schemas/TipoEventoEnum'
+        mensagem:
+          type: string
+        lida:
+          type: boolean
+        data_criacao:
+          type: string
+          format: date-time
+          readOnly: true
+        destinatario:
+          type: integer
+        solicitacao:
+          type: integer
+          nullable: true
+    PatchedOrganizacaoParceira:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        matricula:
+          type: string
+          writeOnly: true
+          description: Matrícula/CNPJ/Identificador do usuário já cadastrado no sistema.
+        matricula_display:
+          type: string
+          readOnly: true
+        usuario_username:
+          type: string
+          readOnly: true
+        razao_social:
+          type: string
+          maxLength: 200
+        cnpj:
+          type: string
+          maxLength: 20
+        usuario:
+          type: integer
+          readOnly: true
+    PatchedSolicitacao:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        documentos:
+          type: array
+          items:
+            $ref: '#/components/schemas/Documento'
+          readOnly: true
+        analise:
+          allOf:
+          - $ref: '#/components/schemas/Analise'
+          readOnly: true
+        checklist:
+          allOf:
+          - $ref: '#/components/schemas/Checklist'
+          readOnly: true
+        encaminhamentos:
+          type: array
+          items:
+            $ref: '#/components/schemas/Encaminhamento'
+          readOnly: true
+        notificacoes:
+          type: array
+          items:
+            $ref: '#/components/schemas/Notificacao'
+          readOnly: true
+        curso:
+          type: string
+          maxLength: 100
+        campus:
+          type: string
+          maxLength: 100
+        status:
+          allOf:
+          - $ref: '#/components/schemas/SolicitacaoStatusEnum'
+          readOnly: true
+        data_criacao:
+          type: string
+          format: date-time
+          readOnly: true
+        data_atualizacao:
+          type: string
+          format: date-time
+          readOnly: true
+        aluno:
+          type: integer
+    ResultadoEnum:
+      enum:
+      - APROVADO
+      - REPROVADO
+      - CORRECAO_NECESSARIA
+      type: string
+      description: |-
+        * `APROVADO` - Aprovado
+        * `REPROVADO` - Reprovado
+        * `CORRECAO_NECESSARIA` - Correção Necessária
+    Solicitacao:
+      type: object
+      properties:
+        id:
+          type: integer
+          readOnly: true
+        documentos:
+          type: array
+          items:
+            $ref: '#/components/schemas/Documento'
+          readOnly: true
+        analise:
+          allOf:
+          - $ref: '#/components/schemas/Analise'
+          readOnly: true
+        checklist:
+          allOf:
+          - $ref: '#/components/schemas/Checklist'
+          readOnly: true
+        encaminhamentos:
+          type: array
+          items:
+            $ref: '#/components/schemas/Encaminhamento'
+          readOnly: true
+        notificacoes:
+          type: array
+          items:
+            $ref: '#/components/schemas/Notificacao'
+          readOnly: true
+        curso:
+          type: string
+          maxLength: 100
+        campus:
+          type: string
+          maxLength: 100
+        status:
+          allOf:
+          - $ref: '#/components/schemas/SolicitacaoStatusEnum'
+          readOnly: true
+        data_criacao:
+          type: string
+          format: date-time
+          readOnly: true
+        data_atualizacao:
+          type: string
+          format: date-time
+          readOnly: true
+        aluno:
+          type: integer
+      required:
+      - aluno
+      - analise
+      - campus
+      - checklist
+      - curso
+      - data_atualizacao
+      - data_criacao
+      - documentos
+      - encaminhamentos
+      - id
+      - notificacoes
+      - status
+    SolicitacaoStatusEnum:
+      enum:
+      - CRIADA
+      - EM_VALIDACAO
+      - CORRECAO_NECESSARIA
+      - APROVADA
+      - REPROVADA
+      - ENCAMINHADA
+      type: string
+      description: |-
+        * `CRIADA` - Criada
+        * `EM_VALIDACAO` - Em Validação
+        * `CORRECAO_NECESSARIA` - Correção Necessária
+        * `APROVADA` - Aprovada
+        * `REPROVADA` - Reprovada
+        * `ENCAMINHADA` - Encaminhada
+    TipoEventoEnum:
+      enum:
+      - SOLICITACAO_CRIADA
+      - DOCUMENTO_ENVIADO
+      - ANALISE_CONCLUIDA
+      - CORRECAO_SOLICITADA
+      - SOLICITACAO_APROVADA
+      - SOLICITACAO_REPROVADA
+      - ENCAMINHAMENTO_REALIZADO
+      type: string
+      description: |-
+        * `SOLICITACAO_CRIADA` - Solicitação Criada
+        * `DOCUMENTO_ENVIADO` - Documento Enviado
+        * `ANALISE_CONCLUIDA` - Análise Concluída
+        * `CORRECAO_SOLICITADA` - Correção Solicitada
+        * `SOLICITACAO_APROVADA` - Solicitação Aprovada
+        * `SOLICITACAO_REPROVADA` - Solicitação Reprovada
+        * `ENCAMINHAMENTO_REALIZADO` - Encaminhamento Realizado
+    TokenObtainPair:
+      type: object
+      properties:
+        username:
+          type: string
+          writeOnly: true
+        password:
+          type: string
+          writeOnly: true
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+          readOnly: true
+      required:
+      - access
+      - password
+      - refresh
+      - username
+    TokenRefresh:
+      type: object
+      properties:
+        access:
+          type: string
+          readOnly: true
+        refresh:
+          type: string
+      required:
+      - access
+      - refresh
+  securitySchemes:
+    cookieAuth:
+      type: apiKey
+      in: cookie
+      name: sessionid
+    jwtAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT

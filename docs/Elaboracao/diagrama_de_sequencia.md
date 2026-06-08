@@ -1,87 +1,203 @@
 ---
-id: diagrama_de_casos de uso
-title: Diagrama de Casos de Uso
+id: diagrama_de_sequencia
+title: Diagramas de Sequência
 ---
 
-## Casos de Uso
+# Diagramas de Sequência
 
-### Descrição:
+## Introdução
 
-- Contas
-	- Criação
-	- Entrada
-	- Alteração
-	- Recuperar Senha
-	- Exclusão Lógica
-	- Visualização
+<p align="justify">
+Os diagramas de sequência representam a interação temporal entre os atores e os componentes do sistema, detalhando o fluxo de mensagens para os principais cenários de uso da API de Gestão e Validação de Estágios.
+</p>
 
-- Perfis
-	- Edição
-	- Pesquisar
-	- Visualização
-	- Seguir/Deixar de Seguir
+---
 
-- Postagens (Público) 	 	
-	- Criação
-	- Exclusão
-	- Interação
-	- Visualização
+## 1. Autenticação JWT (FUNC1)
 
-- Mensagens (Privado)
-	- Criação
-	- Exclusão
-	- Visualização
+```kroki-plantuml
+@startuml
+title Autenticação via JWT
 
-- Galerias
-	- Albuns
-- Blogs
-- Grupos
+actor "Usuário" as User
+participant "POST /api/token/" as Auth
+participant "SimpleJWT" as JWT
+database "Banco de Dados" as DB
 
-### Criação de uma conta no sistema
+User -> Auth : POST {username, password}
+Auth -> DB : Consultar credenciais
+alt Credenciais válidas
+  DB --> Auth : Usuario encontrado
+  Auth -> JWT : Gerar par de tokens
+  JWT --> Auth : {access, refresh}
+  Auth --> User : 200 OK {access, refresh}
+else Credenciais inválidas
+  DB --> Auth : Não encontrado
+  Auth --> User : 401 Unauthorized
+end
 
-* Atores:
+note right of User
+  O token "access" deve ser enviado
+  no header Authorization: Bearer <token>
+  em todas as requisições seguintes.
+end note
+@enduml
+```
 
-	- Usuário
-	- Sistema
+---
 
-- Pré-Condições:
-	- Nenhuma
+## 2. Criação de Solicitação com Checklist Automático (FUNC2/FUNC3)
 
-* Fluxo Básico:
-    1. Usuário fornece e-mail, senha e confirmações
-    2. Dados do Usuário são validados pelo Sistema
-    3. Dados do Usuário são encriptados pelo Sistema
-    4. Dados do Usuário são persistidos pelo Sistema
-    5. Sistema gera um link com prazo de expiração
-    6. Sistema envia e-mail de verificação, com o link, para o Usuário
-    7. Usuário confirma o e-mail antes do link expirar
-    8. Sistema confirma que o Cadastro do Usuário foi realizado com sucesso
-    9. Sistema redireciona o Usuário para a página de Entrada
+```kroki-plantuml
+@startuml
+title Criar Solicitação + Geração de Checklist
 
-- Fluxos Alternativos:
-	- 2a. E-mail do Usuário é inválido
-		2a1. Sistema exibe mensagem de erro
-	- 2b. Senha do Usuário não respeita regras de segurança
-		- 2b1. Sistema exibe mensagem de erro
-	- 3a. Usuário tenta confirmar o e-mail depois de o link expirar
-		- 3a1. Sistema sugere que o Usuário realize um novo Cadastro
+actor "Aluno" as Aluno
+participant "SolicitacaoViewSet" as SV
+participant "perform_create()" as PC
+participant "Checklist" as CK
+participant "ModeloDocumento" as MD
+participant "Notificacao" as NT
+database "Banco de Dados" as DB
 
-### Entrada do usuário no sistema
+Aluno -> SV : POST /api/solicitacoes/ {aluno, curso, campus}
+SV -> SV : Validar serializer
+SV -> PC : perform_create(serializer)
+PC -> DB : Criar Solicitacao (status=CRIADA)
+DB --> PC : Solicitação #N criada
 
-- Atores:
-	- Usuário
-	- Sistema
+PC -> CK : Criar Checklist para Solicitação #N
+PC -> MD : Consultar ModeloDocumento (obrigatorio=True)
+MD --> PC : [TCE, Relatório, ...]
+loop Para cada modelo obrigatório
+  PC -> DB : Criar ItemChecklist (status=PENDENTE)
+end
 
-- Pré-Condições:
-	Usuário deve estar cadastrado
+PC -> NT : criar_notificacao(aluno, SOLICITACAO_CRIADA)
+NT -> DB : Salvar notificação
 
-- Fluxo Básico:
-    - 1. Usuário fornece e-mail e senha
-	- 2. Sistema autentica o Usuário
-	- 3. Sistema redireciona o Usuário para a página inicial
+SV --> Aluno : 201 Created {id, status: CRIADA, checklist: {...}}
+@enduml
+```
 
-- Fluxos Alternativos:
-	- 2a. Dados do Usuário Inválidos
-		- 2a1. Sistema exibe mensagem de erro
-	- 3a. Primeio acesso do Usuário
-		- 3a1. Sistema redireciona o Usuário para a página de edição de perfil
+---
+
+## 3. Envio de Documento com Transição de Status (FUNC5/RF01)
+
+```kroki-plantuml
+@startuml
+title Envio de Documento + Atualização de Status
+
+actor "Aluno" as Aluno
+participant "DocumentoViewSet" as DV
+participant "perform_create()" as PC
+participant "Notificacao" as NT
+database "Banco de Dados" as DB
+
+Aluno -> DV : POST /api/documentos/ {solicitacao, nome, tipo, arquivo}
+DV -> DV : Validar serializer + upload de arquivo
+DV -> PC : perform_create(serializer)
+PC -> DB : Salvar Documento
+DB --> PC : Documento criado
+
+PC -> DB : Atualizar Solicitacao.status = EM_VALIDACAO
+PC -> NT : criar_notificacao(aluno, DOCUMENTO_ENVIADO)
+NT -> DB : Salvar notificação
+
+DV --> Aluno : 201 Created {id, nome, status_validacao: Pendente}
+@enduml
+```
+
+---
+
+## 4. Análise e Aprovação pelo Coordenador (FUNC9/FUNC10/RF04)
+
+```kroki-plantuml
+@startuml
+title Fluxo de Análise e Aprovação
+
+actor "Coordenador" as Coord
+participant "SolicitacaoViewSet" as SV
+participant "@action aprovar" as AP
+participant "Notificacao" as NT
+database "Banco de Dados" as DB
+
+== Opção A: Via @action (recomendado) ==
+
+Coord -> SV : POST /api/solicitacoes/{id}/aprovar/ {observacoes}
+SV -> SV : Verificar permissão IsCoordenador
+SV -> AP : aprovar(request, pk)
+AP -> DB : Atualizar Solicitacao.status = APROVADA
+AP -> NT : criar_notificacao(aluno, SOLICITACAO_APROVADA)
+NT -> DB : Salvar notificação
+AP --> Coord : 200 OK {status: APROVADA}
+
+== Opção B: Reprovar ==
+
+Coord -> SV : POST /api/solicitacoes/{id}/reprovar/ {observacoes}
+SV -> AP : reprovar(request, pk)
+AP -> DB : Atualizar Solicitacao.status = REPROVADA
+AP -> NT : criar_notificacao(aluno, SOLICITACAO_REPROVADA)
+AP --> Coord : 200 OK {status: REPROVADA}
+
+== Opção C: Solicitar correção ==
+
+Coord -> SV : POST /api/solicitacoes/{id}/solicitar-correcao/ {observacoes}
+SV -> AP : solicitar_correcao(request, pk)
+AP -> DB : Atualizar Solicitacao.status = CORRECAO_NECESSARIA
+AP -> NT : criar_notificacao(aluno, CORRECAO_SOLICITADA)
+AP --> Coord : 200 OK {status: CORRECAO_NECESSARIA}
+
+@enduml
+```
+
+---
+
+## 5. Encaminhamento Institucional e Aceite da Empresa (FUNC12/FUNC13)
+
+```kroki-plantuml
+@startuml
+title Encaminhamento e Aceite da Empresa
+
+actor "Coordenador" as Coord
+actor "Empresa" as Emp
+participant "EncaminhamentoViewSet" as EV
+participant "perform_create()" as PC
+participant "@action aceitar" as AC
+participant "Notificacao" as NT
+database "Banco de Dados" as DB
+
+== Encaminhamento pelo Coordenador ==
+
+Coord -> EV : POST /api/encaminhamentos/ {solicitacao, organizacao, coordenador}
+EV -> PC : perform_create(serializer)
+PC -> DB : Criar Encaminhamento
+PC -> DB : Atualizar Solicitacao.status = ENCAMINHADA
+PC -> NT : criar_notificacao(aluno, ENCAMINHAMENTO_REALIZADO)
+EV --> Coord : 201 Created
+
+== Aceite pela Empresa ==
+
+Emp -> EV : POST /api/encaminhamentos/{id}/aceitar/
+EV -> AC : aceitar(request, pk)
+AC -> NT : criar_notificacao(aluno, SOLICITACAO_APROVADA)
+AC --> Emp : 200 OK {aceito: true}
+
+@enduml
+```
+
+---
+
+## Conclusão
+
+<p align="justify">
+Os diagramas de sequência apresentados cobrem os fluxos principais do sistema: autenticação, criação de solicitação com checklist automático, envio de documentos com transição de status, análise/aprovação pelo coordenador, e encaminhamento institucional com aceite da empresa. Cada fluxo demonstra como os componentes da API interagem para orquestrar o processo completo de validação de estágio.
+</p>
+
+---
+
+## Autor(es)
+
+| Data       | Versão | Descrição                            | Autor(es)         |
+|---|---|---|---|
+| 07/06/2026 | 1.0    | Criação dos diagramas de sequência reais do sistema | Equipe PBE |

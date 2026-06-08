@@ -3,77 +3,128 @@ id: dt
 title: Design Thinking
 ---
 
-## **Design Thinking**
+# Design Thinking
 
-### **1. Capa**
+## 1. Introdução
 
-- Título do Projeto
-- Nome da Equipe
-- Data
-- Logo da Empresa/Organização (se aplicável)
-
----
-
-### **2. Introdução**
-
-- **Contexto do Projeto**: Breve descrição do problema ou oportunidade.
-- **Objetivo**: O que se espera alcançar com o projeto.
-- **Público-Alvo**: Quem será impactado pela solução.
-- **Escopo**: Limites e abrangência do projeto.
+- **Contexto do Projeto**: O processo de validação de estágios curriculares no Ibmec é realizado de forma manual e descentralizada, envolvendo trocas de e-mail, planilhas e documentos físicos entre alunos, coordenadores e empresas parceiras.
+- **Objetivo**: Desenvolver um sistema back-end (API REST) que centralize e automatize o fluxo de gestão e validação de documentos de estágio.
+- **Público-Alvo**: Alunos que precisam submeter documentos de estágio, coordenadores que analisam e validam as solicitações, e organizações parceiras que participam do processo de assinatura.
+- **Escopo**: API RESTful com Django + DRF cobrindo o fluxo completo desde a criação da solicitação até o encaminhamento institucional.
 
 ---
 
-### **3. Fases do Design Thinking**
+## 2. Fases do Design Thinking
 
-#### **3.1. Empatia**
+### 2.1. Empatia
 
-- **Pesquisa**: Métodos utilizados para entender o usuário (entrevistas, observação, etc.).
-- **Insights**: Principais descobertas sobre as necessidades, desejos e dores do usuário.
-- **Personas**: Descrição dos perfis de usuários criados com base na pesquisa.
+**Pesquisa realizada:**
 
-#### **3.2. Definição**
+A equipe realizou entrevistas informais e observação do processo atual com alunos e coordenadores do Ibmec para entender as dores de cada perfil.
 
-- **Problema Central**: Definição clara do problema a ser resolvido (ex.: "Como podemos...?").
-- **Pontos de Vista (POV)**: Frases que sintetizam as necessidades do usuário e os insights.
+**Insights principais:**
 
-#### **3.3. Ideação**
+| Perfil | Dor Identificada |
+|---|---|
+| **Aluno** | Não sabe quais documentos são obrigatórios para cada tipo de estágio |
+| **Aluno** | Não tem visibilidade do status da sua solicitação — precisa perguntar por e-mail |
+| **Aluno** | Perde tempo reunindo documentos que depois são rejeitados por erro de formato |
+| **Coordenador** | Gerencia dezenas de solicitações em paralelo usando planilhas Excel |
+| **Coordenador** | Perde tempo notificando alunos manualmente sobre pendências |
+| **Coordenador** | Não tem histórico rastreável de aprovações/reprovações |
+| **Empresa** | Não tem canal direto para confirmar dados do contrato de estágio |
 
-- **Brainstorming**: Lista de ideias geradas pela equipe.
-- **Seleção de Ideias**: Critérios utilizados para escolher as melhores ideias.
-- **Ideias Selecionadas**: Descrição das ideias que serão prototipadas.
+**Personas criadas:**
 
-#### **3.4. Prototipagem**
+- **Ana (Aluna):** Estudante de Engenharia de Software, 5° período. Precisa validar seu TCE para iniciar o estágio. Quer saber exatamente quais documentos precisa enviar e acompanhar o status em tempo real.
+- **Prof. Carlos (Coordenador):** Coordenador do setor de Computação. Analisa ~30 solicitações por semestre. Quer um painel centralizado com filtros e a capacidade de aprovar/reprovar com um clique.
+- **Tech Corp (Empresa):** Empresa parceira que recebe estagiários. Precisa confirmar os dados do contrato e assinar digitalmente.
 
-- **Descrição do Protótipo**: Como a ideia foi transformada em um protótipo (esboço, modelo físico, digital, etc.).
-- **Materiais Utilizados**: Recursos necessários para criar o protótipo.
-- **Testes Realizados**: Como o protótipo foi testado.
+### 2.2. Definição
 
-#### **3.5. Teste**
+**Problema Central:**
 
-- **Feedback dos Usuários**: O que os usuários acharam do protótipo.
-- **Ajustes Realizados**: Mudanças feitas com base no feedback.
-- **Resultados Finais**: Descrição da solução final.
+> "Como podemos centralizar e automatizar o processo de validação de estágios do Ibmec, dando visibilidade ao aluno, reduzindo a carga operacional do coordenador e incluindo a empresa parceira no fluxo?"
+
+**Pontos de Vista (POV):**
+
+- *Ana precisa* de um checklist claro de documentos obrigatórios *porque* ela não sabe o que enviar e perde tempo com reenvios.
+- *Prof. Carlos precisa* de um sistema que notifique automaticamente os alunos *porque* ele gasta horas por semana enviando e-mails de cobrança.
+- *Tech Corp precisa* de um canal digital para validar propostas *porque* hoje o processo depende de documentos físicos.
+
+### 2.3. Ideação
+
+**Brainstorming realizado:**
+
+A equipe realizou sessões de brainstorming documentadas em [Brainstorming](brainstorm.md), onde foram levantadas diversas ideias para solucionar os problemas identificados.
+
+**Ideias selecionadas:**
+
+1. **API REST com fluxo de estados** — cada solicitação percorre: CRIADA → EM_VALIDACAO → APROVADA/REPROVADA → ENCAMINHADA
+2. **Checklist automático** — ao criar uma solicitação, o sistema gera automaticamente a lista de documentos obrigatórios
+3. **Notificações automáticas** — cada evento do fluxo dispara uma notificação para o usuário relevante
+4. **Permissões por perfil** — aluno vê apenas suas solicitações, coordenador vê as do seu setor
+5. **Assinatura digital interna** — hash gerado pelo servidor para rastreabilidade
+6. **Aceite da empresa** — endpoint dedicado para a empresa aceitar/recusar a proposta
+
+**Critérios de seleção:**
+
+- Viabilidade técnica com Django + DRF
+- Impacto direto na redução de carga operacional
+- Alinhamento com a Lei 11.788/08
+
+### 2.4. Prototipagem
+
+**Protótipo de Baixa Fidelidade:**
+
+Foi desenvolvido um protótipo de baixa fidelidade utilizando PlantUML (Salt), documentado em [Protótipo de Baixa Fidelidade](prototipo_baixa_fidelidade.md). O protótipo cobre:
+
+- Tela de login base
+- Dashboard do Aluno com solicitações recentes
+- Tela de nova solicitação com checklist e upload
+- Dashboard do Coordenador com pendências de análise
+- Tela de avaliação e parecer
+- Portal da Empresa com validação de propostas
+
+**Protótipo de Alta Fidelidade:**
+
+O protótipo de alta fidelidade consiste nas interfaces reais da API: Swagger UI para documentação interativa, Django Admin para gestão, e exemplos de requisição/resposta JSON. Documentado em [Protótipo de Alta Fidelidade](../Elaboracao/prototipo_alta_fidelidade.md).
+
+### 2.5. Teste
+
+**Feedback obtido:**
+
+- A documentação Swagger facilita a compreensão dos endpoints e permite testar a API sem ferramentas externas
+- O checklist automático foi bem recebido — reduz dúvidas sobre quais documentos enviar
+- As notificações automáticas eliminam a necessidade de comunicação manual
+- O fluxo de estados garante rastreabilidade de cada decisão
+
+**Ajustes realizados:**
+
+- Adição de `@action` para aprovar/reprovar/solicitar-correcao em vez de alterar status diretamente
+- Filtro de notificações por destinatário (cada usuário vê apenas as suas)
+- Hash de assinatura digital gerado pelo servidor (não pelo cliente)
 
 ---
 
-### **4. Conclusão**
+## 3. Conclusão
 
-- **Resultados Obtidos**: O que foi alcançado com o projeto.
-- **Próximos Passos**: O que ainda precisa ser feito ou implementado.
-- **Aprendizados**: Lições aprendidas durante o processo.
-
----
-
-### **5. Anexos**
-
-- Fotos, gráficos, tabelas, transcrições de entrevistas, etc.
+- **Resultados Obtidos:** Sistema back-end funcional com API REST cobrindo o fluxo completo de validação de estágios, com autenticação JWT, permissões por perfil, notificações automáticas e documentação OpenAPI.
+- **Próximos Passos:** Desenvolvimento de frontend para consumir a API; integração com provedores externos de assinatura digital; migração para PostgreSQL em produção.
+- **Aprendizados:** A aplicação do Design Thinking permitiu identificar dores reais dos usuários antes de implementar, resultando em funcionalidades como checklist automático e notificações que atacam diretamente os problemas mais citados.
 
 ---
 
-## **Dicas para Criar o Documento**
+## Referências
 
-- Use uma linguagem clara e objetiva.
-- Inclua visualizações, como mapas de empatia, jornadas do usuário ou esboços de ideias.
-- Adapte o documento conforme o estágio do projeto (ex.: um documento inicial pode focar mais na pesquisa, enquanto um final pode detalhar a solução).
+> BROWN, Tim. Design Thinking: Uma metodologia poderosa para decretar o fim das velhas ideias. Campus, 2010.
 
-Esse modelo é flexível e pode ser ajustado conforme as necessidades do seu projeto ou da sua equipe. O importante é que o documento reflita o processo colaborativo e iterativo do Design Thinking.
+> Processo de estágio do Ibmec — observação e entrevistas informais realizadas pela equipe em 2026.
+
+---
+
+## Autor(es)
+
+| Data       | Versão | Descrição                            | Autor(es)         |
+|---|---|---|---|
+| 07/06/2026 | 1.0    | Preenchimento completo do Design Thinking com conteúdo real do projeto | Equipe PBE |
