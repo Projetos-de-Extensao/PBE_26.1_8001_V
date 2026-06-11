@@ -112,6 +112,14 @@ class SolicitacaoViewSet(viewsets.ModelViewSet):
         observacoes = request.data.get('observacoes', '')
         solicitacao.status = 'APROVADA'
         solicitacao.save(update_fields=['status'])
+        
+        # Atualiza status dos documentos e itens do checklist
+        solicitacao.documentos.update(status_validacao='Aprovado')
+        if hasattr(solicitacao, 'checklist'):
+            solicitacao.checklist.itens.update(status='APROVADO')
+            solicitacao.checklist.completo = True
+            solicitacao.checklist.save(update_fields=['completo'])
+
         criar_notificacao(
             destinatario=solicitacao.aluno.usuario,
             tipo_evento='SOLICITACAO_APROVADA',
@@ -304,6 +312,11 @@ class EncaminhamentoViewSet(viewsets.ModelViewSet):
     @action(detail=True, methods=['post'], url_path='aceitar', permission_classes=[permissions.IsAuthenticated, IsEmpresa])
     def aceitar(self, request, pk=None):
         encaminhamento = self.get_object()
+        
+        # Atualiza status final da solicitacao
+        encaminhamento.solicitacao.status = 'CONCLUIDA'
+        encaminhamento.solicitacao.save(update_fields=['status'])
+
         criar_notificacao(
             destinatario=encaminhamento.solicitacao.aluno.usuario,
             tipo_evento='SOLICITACAO_APROVADA',

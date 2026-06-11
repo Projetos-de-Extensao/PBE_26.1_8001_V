@@ -110,7 +110,7 @@ O protótipo de alta fidelidade consiste nas interfaces reais da API: Swagger UI
 ## 3. Conclusão
 
 - **Resultados Obtidos:** Sistema back-end funcional com API REST cobrindo o fluxo completo de validação de estágios, com autenticação JWT, permissões por perfil, notificações automáticas e documentação OpenAPI.
-- **Próximos Passos:** Desenvolvimento de frontend para consumir a API; integração com provedores externos de assinatura digital; migração para PostgreSQL em produção.
+- **Próximos Passos:** Desenvolvimento de frontend para consumir a API; integração com provedores externos de assinatura digital; utilização do SQLite em produção pela simplicidade da aplicação.
 - **Aprendizados:** A aplicação do Design Thinking permitiu identificar dores reais dos usuários antes de implementar, resultando em funcionalidades como checklist automático e notificações que atacam diretamente os problemas mais citados.
 
 ---

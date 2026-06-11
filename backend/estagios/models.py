@@ -80,6 +80,7 @@ class Solicitacao(models.Model):
         ('APROVADA', 'Aprovada'),
         ('REPROVADA', 'Reprovada'),
         ('ENCAMINHADA', 'Encaminhada'),
+        ('CONCLUIDA', 'Concluída'),
     ]
     aluno = models.ForeignKey(Aluno, on_delete=models.CASCADE, related_name='solicitacoes')
     curso = models.CharField(max_length=100)

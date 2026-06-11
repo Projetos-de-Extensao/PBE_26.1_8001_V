@@ -95,7 +95,7 @@ package "Backend (Django + DRF)" {
 
 ### Restrições
 
-- **Banco de dados:** SQLite em ambiente de desenvolvimento; recomenda-se PostgreSQL para produção.
+- **Banco de dados:** SQLite pela simplicidade da aplicação.
 - **Assinatura digital:** Implementação interna para rastreabilidade, sem integração com provedores externos (gov.br, ICP-Brasil) nesta versão.
 - **Acesso a internet:** Necessário para autenticação e consumo da API.
 
@@ -162,7 +162,7 @@ package "Camada de Domínio" {
 
 package "Camada de Persistência" {
   [Django ORM]
-  [SQLite / PostgreSQL]
+  [SQLite]
 }
 
 [Swagger UI / ReDoc] --> [URLs (core/urls.py)]
@@ -174,7 +174,7 @@ package "Camada de Persistência" {
 [@actions (aprovar, reprovar, etc.)] --> [Helpers (notificações)]
 [Serializers (12)] --> [Models (12 entidades)]
 [Models (12 entidades)] --> [Django ORM]
-[Django ORM] --> [SQLite / PostgreSQL]
+[Django ORM] --> [SQLite]
 @enduml
 ```
 
