@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sistema de Validação de Estágios</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="app-container">
+        
+        <!-- View: Login -->
+        <section id="view-login" class="view active">
+            <div class="login-box">
+                <h2>Sistema de Validação de Estágios</h2>
+                <form id="form-login">
+                    <div class="form-group">
+                        <label for="username">Usuário (Matrícula/CNPJ)</label>
+                        <input type="text" id="username" name="username" placeholder="aluno01, coordenador01, empresa01" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="password">Senha</label>
+                        <input type="password" id="password" name="password" required>
+                    </div>
+                    <button type="submit" class="btn-primary">Acessar</button>
+                    <div class="login-links">
+                        <a href="#">Esqueceu a senha?</a>
+                        <a href="#">Ajuda</a>
+                    </div>
+                </form>
+            </div>
+        </section>
+
+        <!-- View: Aluno Dashboard -->
+        <section id="view-aluno" class="view">
+            <header>
+                <h2>Olá, Aluno!</h2>
+                <div class="header-actions">
+                    <button class="btn-secondary">Meu Perfil</button>
+                    <button class="btn-logout" onclick="logout()">Sair</button>
+                </div>
+            </header>
+            <main>
+                <div class="sidebar">
+                    <h3>Painel</h3>
+                    <ul>
+                        <li><a href="#" onclick="showSection('aluno-nova-solicitacao')">Iniciar Nova Solicitação</a></li>
+                        <li><a href="#" onclick="showSection('aluno-minhas-solicitacoes'); carregarSolicitacoesAluno();">Minhas Solicitações</a></li>
+                        <li><a href="#" onclick="showSection('aluno-modelos'); carregarModelos();">Modelos de Documentos</a></li>
+                        <li><a href="#" onclick="showSection('aluno-notificacoes'); carregarNotificacoes();">Notificações</a></li>
+                    </ul>
+                </div>
+                <div class="content">
+                    
+                    <!-- Minhas Solicitações -->
+                    <div id="aluno-minhas-solicitacoes" class="content-section active">
+                        <h3>Minhas Solicitações Recentes</h3>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>ID</th>
+                                    <th>Curso / Campus</th>
+                                    <th>Status</th>
+                                    <th>Ações</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody-solicitacoes-aluno">
+                                <!-- Preenchido via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                    <!-- Nova Solicitação -->
+                    <div id="aluno-nova-solicitacao" class="content-section">
+                        <h3>Iniciar Nova Solicitação</h3>
+                        <form id="form-nova-solicitacao">
+                            <div class="form-group">
+                                <label for="curso">Curso:</label>
+                                <input type="text" id="curso" value="Ciência da Computação" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="campus">Campus:</label>
+                                <input type="text" id="campus" value="Barra da Tijuca" required>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn-primary">Criar Solicitação</button>
+                                <button type="button" class="btn-secondary" onclick="showSection('aluno-minhas-solicitacoes')">Cancelar</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Enviar Documentos -->
+                    <div id="aluno-enviar-documentos" class="content-section">
+                        <h3>Enviar Documento para Solicitação #<span id="doc-solicitacao-id-display"></span></h3>
+                        <form id="form-enviar-documento">
+                            <input type="hidden" id="doc-solicitacao-id">
+                            <div class="form-group">
+                                <label for="doc-nome">Nome do Arquivo:</label>
+                                <input type="text" id="doc-nome" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="doc-tipo">Tipo do Documento:</label>
+                                <input type="text" id="doc-tipo" placeholder="Ex: TCE, Relatório, Identidade" required>
+                            </div>
+                            <div class="form-group">
+                                <label for="doc-arquivo">Arquivo (PDF):</label>
+                                <input type="file" id="doc-arquivo" required>
+                            </div>
+                            <div class="form-actions">
+                                <button type="submit" class="btn-primary">Fazer Upload</button>
+                                <button type="button" class="btn-secondary" onclick="showSection('aluno-minhas-solicitacoes')">Voltar</button>
+                            </div>
+                        </form>
+                    </div>
+
+                    <!-- Modelos de Documentos -->
+                    <div id="aluno-modelos" class="content-section">
+                        <h3>Modelos de Documentos</h3>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Nome</th>
+                                    <th>Descrição</th>
+                                    <th>Obrigatório?</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody-modelos">
+                                <!-- Preenchido via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                    <!-- Notificações -->
+                    <div id="aluno-notificacoes" class="content-section">
+                        <h3>Minhas Notificações</h3>
+                        <table class="data-table">
+                            <thead>
+                                <tr>
+                                    <th>Data / Hora</th>
+                                    <th>Mensagem</th>
+                                    <th>Referência</th>
+                                </tr>
+                            </thead>
+                            <tbody id="tbody-notificacoes">
+                                <!-- Preenchido via JS -->
+                            </tbody>
+                        </table>
+                    </div>
+
+                </div>
+            </main>
+        </section>
+
+        <!-- View: Coordenador Dashboard -->
+        <section id="view-coordenador" class="view">
+            <header>
+                <h2>Painel do Coordenador</h2>
+                <div class="header-actions">
+                    <button class="btn-logout" onclick="logout()">Sair</button>
+                </div>
+            </header>
+            <main class="full-width">
+                <div id="coord-listagem" class="content-section active">
+                    <h3>Pendências de Análise</h3>
+                    <div class="filters">
+                        <input type="text" placeholder="Buscar Aluno">
+                        <button class="btn-secondary">Filtrar</button>
+                    </div>
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>Aluno</th>
+                                <th>Documentos Anexados</th>
+                                <th>Status</th>
+                                <th>Ações</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tbody-solicitacoes-coord">
+                            <!-- Preenchido via JS -->
+                        </tbody>
+                    </table>
+                </div>
+
+                <div id="coord-avaliacao" class="content-section">
+                    <h3>Avaliar Solicitação #<span id="eval-id"></span></h3>
+                    <div class="eval-header">
+                        <p><strong>Aluno:</strong> <span id="eval-aluno-nome"></span></p>
+                    </div>
+                    <div class="system-validation">
+                        <h4>Validação Automática do Sistema</h4>
+                        <p>Score de Verificação: <strong>95%</strong></p>
+                        <ul>
+                            <li>✔️ Assinaturas Digitais Identificadas</li>
+                            <li>✔️ Carga horária dentro do limite</li>
+                        </ul>
+                    </div>
+                    <form id="form-avaliacao-coord">
+                        <input type="hidden" id="eval-solicitacao-id">
+                        <h4>Parecer Técnico</h4>
+                        <div class="form-group radio-group">
+                            <label><input type="radio" name="conceito" value="APROVADA" required> Aprovado</label>
+                            <label><input type="radio" name="conceito" value="CORRECAO_NECESSARIA"> Devolvido para Correção</label>
+                            <label><input type="radio" name="conceito" value="REPROVADA"> Reprovado</label>
+                        </div>
+                        <div class="form-group">
+                            <label for="observacoes">Observações:</label>
+                            <textarea id="observacoes" rows="3"></textarea>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn-primary">Registrar Parecer</button>
+                            <button type="button" class="btn-secondary" onclick="showCoordSection('coord-listagem')">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Nova Seção: Encaminhar para Empresa -->
+                <div id="coord-encaminhar" class="content-section">
+                    <h3>Encaminhar Solicitação #<span id="enc-id"></span></h3>
+                    <form id="form-encaminhar-coord">
+                        <input type="hidden" id="enc-solicitacao-id">
+                        <div class="form-group">
+                            <label for="enc-empresa">Empresa Parceira:</label>
+                            <select id="enc-empresa" required>
+                                <option value="">Carregando empresas...</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="enc-observacoes">Observações (Opcional):</label>
+                            <textarea id="enc-observacoes" rows="3"></textarea>
+                        </div>
+                        <div class="form-actions">
+                            <button type="submit" class="btn-primary">Encaminhar para Empresa</button>
+                            <button type="button" class="btn-secondary" onclick="showCoordSection('coord-listagem')">Cancelar</button>
+                        </div>
+                    </form>
+                </div>
+            </main>
+        </section>
+
+        <!-- View: Empresa Dashboard -->
+        <section id="view-empresa" class="view">
+            <header>
+                <h2>Portal da Empresa</h2>
+                <div class="header-actions">
+                    <button class="btn-logout" onclick="logout()">Sair</button>
+                </div>
+            </header>
+            <main class="full-width">
+                <h3>Validação de Propostas de Estágio</h3>
+                <table class="data-table">
+                    <thead>
+                        <tr>
+                            <th>Aluno</th>
+                            <th>Curso</th>
+                            <th>Ação</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tbody-solicitacoes-empresa">
+                        <!-- Preenchido via JS -->
+                    </tbody>
+                </table>
+            </main>
+        </section>
+
+    </div>
+    
+    <script src="app.js"></script>
+</body>
+</html>
